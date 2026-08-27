@@ -5,8 +5,9 @@ The reproducibility record for this screen. Raw documents are **not** committed
 markdown under `sources/extracted/` **is** committed and is what deliverables
 cite.
 
-**Status: no sources retrieved yet.** The manifest below is empty by design —
-Phase 0 is scaffold only.
+**Status: three primary sources retrieved (2026-08-27).** Access to Mexican
+government hosts is partly blocked; the routing that worked, and what remains
+unobtainable, is recorded in §1 and in `working/source-access-log.md`.
 
 ---
 
@@ -17,7 +18,21 @@ committed; supersede it with a new row and mark the old one `superseded`.
 
 | ID | Title | Publisher | Type | URL | Retrieved (UTC) | SHA-256 | Extracted to | Status |
 |----|-------|-----------|------|-----|-----------------|---------|--------------|--------|
-| _(none yet)_ | | | | | | | | |
+| `sct-2025-datosviales-oaxaca` | Datos Viales 2025 — Oaxaca (data year 2024) | SICT / DGST | primary | https://micrs.sct.gob.mx/images/DireccionesGrales/DGST/Datos_Viales_2025/20_DV2025_Oaxaca.pdf | 2026-08-27 | `adceb7b1a17c2b21977dbeef94d86907ca44904e6c0364c2a0b03ea4baa82ff4` | `sources/extracted/sct-2025-datosviales-oaxaca/` | active |
+| `sct-2025-datosviales-puebla` | Datos Viales 2025 — Puebla (data year 2024) | SICT / DGST | primary | https://micrs.sct.gob.mx/images/DireccionesGrales/DGST/Datos_Viales_2025/21_DV2025_Puebla.pdf | 2026-08-27 | `b6c37c73bd1876dd867ec3cd37fa61d80f3252be327610db50b5162981db1929` | `sources/extracted/sct-2025-datosviales-puebla/` | active |
+| `imt-2023-manual-estadistico` | Manual Estadístico del Sector Transporte 2023 | IMT | primary | https://imt.mx/archivos/Publicaciones/Manual/mn2023.pdf | 2026-08-27 | `01ecb7aec3b9ed78811286aa136da44e3deb452ba37a50370c1d05f6de020765` | `sources/extracted/imt-2023-manual-estadistico/` | active |
+
+All three are born-digital (text layer present), extracted with `pymupdf`.
+Identity of each was verified by reading page 1, not by trusting the filename.
+
+**Not yet obtained** — see `working/source-access-log.md` for the full probe log:
+
+| Wanted | Blocker | Consequence |
+|---|---|---|
+| DOF notices (2003 condition, 2012 concession exclusion, 2023 FIT assignment) | Egress policy denial on `www.dof.gob.mx` | Corridor legal history unverifiable from the primary record |
+| Wayback captures | Egress policy blocks `web.archive.org/web/` capture paths | The brief's designated fallback for link rot is unavailable |
+| ARTF *Anuario Estadístico Ferroviario* | `www.gob.mx/artf` returns a bot-challenge page | Rail contribution margin per ton-km not yet sourced; Manual Estadístico gives aggregate ton-km only |
+| UNESCO property 1534 boundary | `whc.unesco.org` HTTP 403 | Biosphere-reserve zoning overlap not yet determinable |
 
 Column rules:
 
