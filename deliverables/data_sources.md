@@ -5,7 +5,7 @@ The reproducibility record for this screen. Raw documents are **not** committed
 markdown under `sources/extracted/` **is** committed and is what deliverables
 cite.
 
-**Status: three primary sources retrieved (2026-08-27).** Access to Mexican
+**Status: seven sources retrieved (2026-08-27), six primary.** Access to Mexican
 government hosts is partly blocked; the routing that worked, and what remains
 unobtainable, is recorded in §1 and in `working/source-access-log.md`.
 
@@ -21,6 +21,10 @@ committed; supersede it with a new row and mark the old one `superseded`.
 | `sct-2025-datosviales-oaxaca` | Datos Viales 2025 — Oaxaca (data year 2024) | SICT / DGST | primary | https://micrs.sct.gob.mx/images/DireccionesGrales/DGST/Datos_Viales_2025/20_DV2025_Oaxaca.pdf | 2026-08-27 | `adceb7b1a17c2b21977dbeef94d86907ca44904e6c0364c2a0b03ea4baa82ff4` | `sources/extracted/sct-2025-datosviales-oaxaca/` | active |
 | `sct-2025-datosviales-puebla` | Datos Viales 2025 — Puebla (data year 2024) | SICT / DGST | primary | https://micrs.sct.gob.mx/images/DireccionesGrales/DGST/Datos_Viales_2025/21_DV2025_Puebla.pdf | 2026-08-27 | `b6c37c73bd1876dd867ec3cd37fa61d80f3252be327610db50b5162981db1929` | `sources/extracted/sct-2025-datosviales-puebla/` | active |
 | `imt-2023-manual-estadistico` | Manual Estadístico del Sector Transporte 2023 | IMT | primary | https://imt.mx/archivos/Publicaciones/Manual/mn2023.pdf | 2026-08-27 | `01ecb7aec3b9ed78811286aa136da44e3deb452ba37a50370c1d05f6de020765` | `sources/extracted/imt-2023-manual-estadistico/` | active |
+| `artf-2024-anuario-ferroviario` | Anuario Estadístico Ferroviario 2024 | ARTF / SICT | primary | https://www.gob.mx/cms/uploads/attachment/file/1020005/Anuario_2024_P.pdf | 2026-08-27 | `526fcb0cf407213228c6eb74f8be3b63abc830147c256b749c49c1f9e254a5fd` | `sources/extracted/artf-2024-anuario-ferroviario/` | active |
+| `artf-2023-anuario-ferroviario` | Anuario Estadístico Ferroviario 2023 | ARTF / SICT | primary | https://www.gob.mx/cms/uploads/attachment/file/920778/Anuario_2023_ARTF.pdf | 2026-08-27 | `cdc6d2aefee528a407064e5e054d35a91709a6baafe53ffcdf0d0901d96bc8eb` | `sources/extracted/artf-2023-anuario-ferroviario/` | active |
+| `fit-2021-programa-inversion` | Programa Institucional 2021-2024 FIT — Avance y Resultados 2021 | FIT (SEMAR) | primary | https://www.gob.mx/cms/uploads/attachment/file/735993/47_PI_FIT_AyR21.pdf | 2026-08-27 | `87e4e41d969719f669dc8b56af533cedf13fa4ded29579f72ffc811930aea1fc` | `sources/extracted/fit-2021-programa-inversion/` | active |
+| `ciep-2024-infraestructura-ferroviaria` | Infraestructura Ferroviaria: Presupuesto 2013-2024 | CIEP | secondary | https://ciep.mx/wp-content/uploads/2024/10/Infraestructura-ferroviaria.-Presupuesto-2013-2024.pdf | 2026-08-27 | `948485e47e8dd24ffde16a84dbd87b18c95a3b4a6e745a2f2a4ca6c4dca4a654` | `sources/extracted/ciep-2024-infraestructura-ferroviaria/` | active |
 
 All three are born-digital (text layer present), extracted with `pymupdf`.
 Identity of each was verified by reading page 1, not by trusting the filename.
@@ -31,7 +35,8 @@ Identity of each was verified by reading page 1, not by trusting the filename.
 |---|---|---|
 | DOF notices (2003 condition, 2012 concession exclusion, 2023 FIT assignment) | Egress policy denial on `www.dof.gob.mx` | Corridor legal history unverifiable from the primary record |
 | Wayback captures | Egress policy blocks `web.archive.org/web/` capture paths | The brief's designated fallback for link rot is unavailable |
-| ARTF *Anuario Estadístico Ferroviario* | `www.gob.mx/artf` returns a bot-challenge page | Rail contribution margin per ton-km not yet sourced; Manual Estadístico gives aggregate ton-km only |
+| ~~ARTF *Anuario Estadístico Ferroviario*~~ | **RESOLVED.** The HTML page is bot-challenged, but the PDF is served unchallenged from `www.gob.mx/cms/uploads/attachment/file/...` | Margin obtained: Ferrosur EBIT $0.402/ton-km |
+| Mexican rehabilitation unit cost per km | ASF serves a JS application; direct PDF paths 404; DOF egress-blocked | Capital band unsourced. Bypassed by inverting to supportable capital |
 | UNESCO property 1534 boundary | `whc.unesco.org` HTTP 403 | Biosphere-reserve zoning overlap not yet determinable |
 
 Column rules:
