@@ -159,9 +159,14 @@ def build_inputs(ws):
         "Wagon tare + locomotive. Gross ton-km = net tons x (1 + tare) x km", M2)
 
     sec(ws, 23, "REVENUE")
-    par(ws, 24, "Contribution margin per net ton-km", None, "MXN / net ton-km", "[NOT OBTAINED]",
-        "ARTF Anuario unreachable (bot challenge); commodity-level margin is commercially "
-        "confidential. SWEPT on 'Breakeven' rather than assumed here", '0.0000', ASSUM_FILL)
+    par(ws, 24, "Contribution margin per net ton-km", 0.402, "MXN / net ton-km",
+        "artf-2024-anuario-ferroviario",
+        "Ferrosur EBIT/ton-km, constant 2024 MXN: $0.93 revenue (Tabla 7-8) x 43.19% operating "
+        "margin (Tablas 7-3, 7.7). ARTF's cost base ALREADY includes maintenance and D&A, so "
+        "B21 and B20 must be 0 when using this basis or maintenance is double-counted. "
+        "Swept 0.402-0.93 on 'Supportable'. See working/margin-derivation.md", '0.0000')
+    par(ws, 33, "Variable O&M — set 0 on the EBIT margin basis", 0, "MXN / gross ton-km",
+        "see note", "Guard against double-counting; overrides B21 conceptually", '0.0000', DER_FILL)
 
     sec(ws, 25, "CONVENTIONS AND CONVERSION")
     par(ws, 26, "MXN / USD rate", None, "MXN per USD", "",
@@ -171,9 +176,9 @@ def build_inputs(ws):
         "All money figures real in this year. Never mix nominal across years", N0)
 
     sec(ws, 29, "ROAD COMPARISON")
-    par(ws, 30, "Payload per loaded articulated truck", None, "tonnes", "",
+    par(ws, 30, "Payload per loaded articulated truck", 27.5, "tonnes", "[ASSUMPTION] 25–30 t",
         "Bridge from vehicle counts to tonnage. This is an ASSUMPTION — show sensitivity", M1, ASSUM_FILL)
-    par(ws, 31, "Empty-running share", None, "fraction", "Prompt.md: ~30–50%",
+    par(ws, 31, "Empty-running share", 0.40, "fraction", "Prompt.md: ~30–50%",
         "Raw truck counts are NOT loaded tonnage", PCT, ASSUM_FILL)
     par(ws, 32, "Observed articulated veh/day at corridor terminus", 500, "veh/day, both dirs",
         "sct-2025-datosviales-oaxaca", "SR-2 bound: endpoint flow N of Oaxaca City. See working/sr2-evaluation.md", N0)
@@ -339,6 +344,70 @@ def build_compare(ws):
     widths(ws, {1: 46, 2: 58, 3: 14, 4: 22})
 
 
+
+def build_supportable(ws):
+    """The screen inverted: what capital could the corridor support?"""
+    ws["A1"] = "Maximum supportable capital — the screen inverted"; ws["A1"].font = TITLE
+    ws["A2"] = ("A planning-level capital cost for this alignment could not be sourced. So instead: "
+                "given what the corridor demonstrably moves and what Mexican railways demonstrably "
+                "earn per ton-km, how much capital could the line support? Needs no capital estimate.")
+    ws["A2"].font = NOTE
+
+    ws["A4"] = "CORRIDOR TONNAGE FROM OBSERVED TRAFFIC"; ws["A4"].font = SEC
+    rows = [
+        ("Articulated veh/day, both directions", "=Inputs!B32", "veh/day", "sct-2025-datosviales-oaxaca (SR-2 bound)"),
+        ("Loaded share", '=IF(Inputs!B31="","",1-Inputs!B31)', "fraction", "[ASSUMPTION] 30–50% empty"),
+        ("Payload per loaded truck", "=Inputs!B30", "tonnes", "[ASSUMPTION] 25–30 t"),
+        ("Corridor tonnage", '=IF(OR(B5="",B6="",B7=""),"",B5*B6*B7*365)', "tonnes / yr", "derived"),
+    ]
+    for i, (n, f, u, s_) in enumerate(rows, start=5):
+        ws.cell(row=i, column=1, value=n)
+        c = ws.cell(row=i, column=2, value=f); c.fill, c.border = DER_FILL, BOX
+        c.number_format = N0 if i in (5, 8) else M2
+        ws.cell(row=i, column=3, value=u); ws.cell(row=i, column=4, value=s_).font = NOTE
+
+    ws["A10"] = "MAXIMUM SUPPORTABLE CAPITAL (MXN million per route-km)"; ws["A10"].font = SEC
+    ws["A11"] = ("Rows = share of corridor freight won by rail [ASSUMPTION]. "
+                 "Columns = cost of capital, 30-year life.")
+    ws["A11"].font = NOTE
+    head(ws, 12, ["Diversion", "Tonnage (t/yr)", "Annual surplus (MXN m)",
+                  "@5% MXN m/km", "@6% MXN m/km", "@8% MXN m/km"])
+    for i, div in enumerate([1.00, 0.50, 0.30, 0.15], start=13):
+        ws.cell(row=i, column=1, value=div).number_format = PCT
+        ws.cell(row=i, column=2, value=f'=IF($B$8="","",$B$8*A{i})').number_format = N0
+        ws.cell(row=i, column=3, value=(
+            f'=IF(OR(B{i}="",Inputs!$B$24="",Inputs!$B$5=""),"",'
+            f'B{i}*Inputs!$B$5*Inputs!$B$24/1000000)')).number_format = M1
+        for j, drow in enumerate((16, 17, 18)):
+            col = 4 + j
+            ws.cell(row=i, column=col, value=(
+                f'=IF(OR($C{i}="",Inputs!$B${drow}="",Inputs!$B$15="",Inputs!$B$5=""),"",'
+                f'$C{i}*((1-(1+Inputs!$B${drow})^-Inputs!$B$15)/Inputs!$B${drow})/Inputs!$B$5)'
+            )).number_format = M1
+        for c in range(2, 7):
+            ws.cell(row=i, column=c).fill = DER_FILL; ws.cell(row=i, column=c).border = BOX
+
+    ws["A19"] = "BENCHMARKS"; ws["A19"].font = SEC
+    ws["A20"] = "UNESCAP light rehabilitation"
+    ws["B20"] = '=IF(Inputs!B26="","",0.5*Inputs!B26)'
+    ws["B20"].number_format = M2; ws["B20"].fill = DER_FILL; ws["B20"].border = BOX
+    ws["C20"] = "MXN million / km"; ws["C20"].font = NOTE
+    ws["D20"] = "< USD 500,000/route-km, converted at Inputs!B26 — state the rate and its date"
+    ws["D20"].font = NOTE
+    ws["A21"] = "Línea Z Mexican precedent"; ws["B21"] = 60
+    ws["B21"].number_format = M2; ws["B21"].fill = ASSUM_FILL; ws["B21"].border = BOX
+    ws["C21"] = "MXN million / km"; ws["C21"].font = NOTE
+    ws["D21"] = "~18,000 MXN million / ~300 km  [PRESS — UNVERIFIED, must not carry a conclusion]"
+    ws["D21"].font = NOTE
+
+    ws["A23"] = "VERDICT TEST"; ws["A23"].font = SEC
+    ws["B23"] = ('=IF(OR(D13="",B21=""),"pending inputs",'
+                 'IF(F13<B21,"FAILS — even 100% capture at the highest cost of capital cannot '
+                 'support the Mexican precedent unit cost","review"))')
+    ws["B23"].font = SEC; ws["B23"].fill = DER_FILL; ws["B23"].border = BOX
+    widths(ws, {1: 34, 2: 20, 3: 24, 4: 18, 5: 18, 6: 18})
+
+
 def main():
     wb = Workbook()
     build_readme(wb.active)
@@ -346,6 +415,7 @@ def main():
     build_capital(wb.create_sheet("Capital"))
     build_breakeven(wb.create_sheet("Breakeven"))
     build_commodity(wb.create_sheet("Commodity"))
+    build_supportable(wb.create_sheet("Supportable"))
     build_compare(wb.create_sheet("Compare"))
     wb.save(OUT)
     print(f"wrote {OUT.relative_to(ROOT)} ({OUT.stat().st_size//1024} KB)")

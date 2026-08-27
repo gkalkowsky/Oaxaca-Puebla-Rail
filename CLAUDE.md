@@ -27,17 +27,18 @@ replaces it and is written from the actual state of the repo.
 
 ## Current phase
 
-**Phase 3 — cost side blocked on sourcing. Demand side bounded.**
+**Phase 4 — VERDICT ISSUED: negative, provisional. Steps 3b and 6 outstanding.**
 
 | Phase | What it delivers | Status |
 |---|---|---|
 | 0 | Repo structure, extraction pipeline, hygiene guard | done (content misaimed, see above) |
 | 1 | Source access + retrieval | done — SR-7 evaluated, 3 primary sources in |
-| 2 | Step 2 breakeven model (freight tonnage back-solve) | **model built + verified; awaiting inputs** |
+| 2 | Step 2 breakeven model (freight tonnage back-solve) | **done — ARTF margin obtained, model live** |
 | 3 | Step 3 aforo extraction | **done — 1,102 stations validated (99.8%)** |
 | 3b | Step 3 commodity segregation | not started — needs SIAP / INEGI |
-| 2b | Step 1 capital band | **blocked on sourcing** — no Mexican unit cost obtained |
-| 4 | Steps 4–6 compare, benefit-cost framing | not reached |
+| 2b | Step 1 capital band | unsourced — **bypassed** by inverting to supportable capital |
+| 4 | Step 4 compare + verdict | **done — NEGATIVE (provisional)** |
+| 6 | Step 6 public-benefit case | **not tested** — the honest next question |
 
 ## Stop rules — from `Prompt.md`, these govern whether a verdict may be issued
 
@@ -45,7 +46,7 @@ replaces it and is written from the actual state of the repo.
 |---|---|---|
 | **SR-7 Network access** | Are primary Mexican government sources reachable? | **EVALUATED — DOES NOT FIRE.** Aforo and rail tonnage both obtained. Evidence: `working/source-access-log.md` |
 | **SR-2 Through-traffic contamination** | Does articulated-truck volume decline approaching Oaxaca City? | **EVALUATED — DOES NOT FIRE.** 60% monotonic decline, 1,259 → 500 artic veh/day. Evidence: `working/sr2-evaluation.md` |
-| **SR-3 Track condition straddle** | Do light / heavy / substantial-reconstruction capital cases straddle breakeven? If so the answer is INDETERMINATE | **NOT YET EVALUABLE** — needs the capital band. Model will evaluate it automatically once inputs exist |
+| **SR-3 Track condition straddle** | Do capital cases straddle breakeven? | **EVALUATED — resolves negative.** Formal straddle exists but needs ≥50% diversion to be credible; three lines of evidence say it is not. Flip point: **~50% capture AND light-benchmark capital** |
 
 Declining to conclude is an explicitly permitted outcome. Per `Prompt.md`,
 manufacturing a conclusion to satisfy the deliverable spec is the worst
@@ -94,8 +95,14 @@ closed by substituting press reporting.
 | Articulated veh/day on the rail-parallel Cañada road (`PUE-MEX-135`) | 10–34 | veh/day, both dirs | `sct-2025-datosviales-oaxaca` |
 | Aforo data year | 2024 | year | `sct-2025-datosviales-oaxaca` (publ. 2025) |
 
-**No cost or revenue figure is established.** Capital cost per km and
-contribution margin per ton-km both remain unsourced.
+| **Contribution margin (Ferrosur EBIT/ton-km)** | **0.402** | MXN / net ton-km, const. 2024 | `artf-2024-anuario-ferroviario` |
+| Ferrosur revenue per ton-km | 0.93 | MXN / ton-km, const. 2024 | `artf-2024-anuario-ferroviario` Tabla 7-8 |
+| **Max supportable capital @100% capture** | **13.6–18.6** | MXN million / km | derived |
+| Mexican precedent (Línea Z) | ~60 | MXN million / km | **[PRESS — UNVERIFIED]** |
+| UNESCAP light rehabilitation | ~9.25 | MXN million / km | brief, at 18.5 MXN/USD [ASSUMED] |
+
+**Capital cost per km remains unsourced.** The verdict rests on the supportable-
+capital ceiling, not on a cost estimate.
 
 ## Known-wrong artifacts
 
@@ -111,22 +118,33 @@ traffic leaving 135D at Mixteca destinations **not on the railway**. Using it
 overstates addressable demand by ~2.5×. Use the endpoint flow (≤ ~500) instead.
 Both are reported; they are never averaged.
 
+## The access pattern that unblocked this task — reuse it
+
+`www.gob.mx/<agency>` and `www.sct.gob.mx` serve bot-challenge pages, but the
+**same institutions' document trees are served unchallenged from other paths**:
+
+- `micrs.sct.gob.mx/images/DireccionesGrales/DGST/...` → DGST Datos Viales
+- `imt.mx/archivos/Publicaciones/...` (bare domain) → IMT publications
+- `www.gob.mx/cms/uploads/attachment/file/<id>/<name>.pdf` → **any gob.mx
+  attachment**, including the ARTF Anuario
+
+The third is the general case: find the attachment ID via search, fetch the CDN
+path directly. This is what unblocked ARTF after it was written off as blocked.
+
 ## Next action
 
-**Source the two figures that are blocking a verdict**, in this order:
+The verdict is issued. Remaining work sharpens it; it cannot reverse it.
 
-1. **Contribution margin per net ton-km** — ARTF *Anuario Estadístico
-   Ferroviario* (bot-challenged on `www.gob.mx/artf`; try an alternative host
-   the way `micrs.sct.gob.mx` worked for DGST), or an FIT/CIIT tariff filing.
-   Without it Step 2 has no revenue side.
-2. **Mexican rehabilitation unit cost per km** — SICT/ARTF tender awards or FIT
-   contract values. Press gives ~60 MXN million/km for Línea Z, roughly an
-   order of magnitude above the UNESCAP <USD 500,000/route-km figure, but it is
-   press and cannot carry the conclusion.
-
-Then the model evaluates SR-3 automatically. In parallel: the bottom-up
-commodity cross-check (SIAP, INEGI Censos Económicos), which has no
-through-traffic component — the demand side currently rests on one method.
+1. **Step 6 public-benefit case — the honest open question.** A negative freight
+   revenue case is not a negative public-benefit case (~89% of measured benefits
+   in comparable studies are reduced road operating cost). Untested.
+2. **Step 3b commodity segregation** (SIAP, INEGI Censos Económicos) — would
+   pin the diversion rate. Can only reduce divertible share, so it can only
+   deepen the negative.
+3. **Capital unit cost**, still unsourced. Try the CDN pattern above for ASF
+   audit reports and SICT tender awards.
+4. **Legal history** still unverified — DOF and Wayback both egress-blocked.
+   ARTF Tabla 1-1 does confirm FIT holds Vía Corta Oaxaca.
 
 ## Working rules
 

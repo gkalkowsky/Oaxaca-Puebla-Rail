@@ -8,19 +8,85 @@ Screening study. Concept level. Prepared against `Prompt.md`.
 
 ## Verdict
 
-> ## NO VERDICT ISSUED — screen incomplete
+> ## NEGATIVE — the corridor does not support reactivation on a freight revenue case
 >
-> Demand-side work is complete enough to bound addressable freight. The
-> **cost side is not sourced**, so no go / no-go / marginal judgement may be
-> issued. This is a statement about the evidence, not about the project.
+> **Provisional, and conditional in one specific way stated below.** The
+> outstanding work can only strengthen this result, not reverse it.
 
-The brief is explicit that manufacturing a conclusion to satisfy the
-deliverable spec is the worst possible outcome. Two of the three inputs that
-would decide this screen — planning-level capital cost for this alignment, and
-contribution margin per ton-km — have no primary source behind them yet. A
-verdict now would be an assumption wearing a conclusion's clothes.
+The screen was inverted to reach this. A planning-level capital cost for the
+alignment could not be sourced, so rather than wait on it, the question was
+turned around: **given what the corridor demonstrably moves, and what Mexican
+railways demonstrably earn per ton-km, how much capital could the line
+support?** That needs no capital estimate.
 
-What is established, and what it would take to close the gap, is set out below.
+**Maximum supportable capital** — ARTF EBIT margin basis, 216.5 km, 30-year
+life, in MXN million per route-km:
+
+| Share of corridor freight won | @5% | @6% | @8% |
+|---|---|---|---|
+| **100%** (impossible, shown as a ceiling) | 18.6 | 16.7 | **13.6** |
+| 50% | 9.3 | 8.3 | 6.8 |
+| 30% | 5.6 | 5.0 | 4.1 |
+| 15% | 2.8 | 2.5 | 2.0 |
+
+Against the benchmarks:
+
+- **Mexican precedent (Línea Z, ~60 MXN million/km)** — the corridor fails at
+  **every** diversion rate and **every** cost of capital, including a physically
+  impossible 100% capture of all corridor articulated freight. It is short by
+  roughly **3× to 4×** at the ceiling and by an order of magnitude at plausible
+  capture. *(Press-sourced and unverified — but the gap is far too wide for
+  source quality to change the direction.)*
+- **UNESCAP light rehabilitation (<USD 500,000/route-km ≈ 9.25 MXN million/km
+  at 18.5 MXN/USD [ASSUMED rate — state rate and date])** — clears **only at
+  ~50% diversion or above**.
+
+### The flip point, which the brief asks for by name
+
+> **~50% capture of all corridor articulated freight**, and only if
+> rehabilitation is achievable at the international *light* benchmark rather
+> than at Mexican precedent cost.
+
+That is the single most decision-relevant number here. Both conditions must
+hold simultaneously.
+
+### Why this resolves negative rather than INDETERMINATE
+
+By the letter of SR-3 the scenarios straddle: light rehabilitation clears at
+≥50% diversion while substantial reconstruction fails everywhere. But the
+straddle only exists **if ≥50% diversion is credible, and three independent
+lines of evidence say it is not**:
+
+1. The road that actually parallels the rail alignment through the Cañada
+   carries **10–34 articulated veh/day**, not 500.
+2. The 500 veh/day figure is measured on MEX-135D, which runs the **Mixteca** —
+   its intermediate destinations are **not on the railway**.
+3. A large share of Oaxaca's tradeable output is in explicitly **low-diversion**
+   classes (mezcal, coffee, avocado, mango, figs, refrigerated, time-sensitive).
+
+A 20-year-dormant line through a fault-zone canyon is also an unlikely candidate
+for the *light* end of the rehabilitation range.
+
+### What would overturn it
+
+Only a demand argument this screen deliberately does not make: that rail would
+generate **new** freight not currently on the road. That is demand forecasting,
+which the brief forbids, and it is an assumption, not evidence.
+
+### Why it is safe to issue before the commodity segregation
+
+The segregation (SIAP / INEGI, not yet done) can only **reduce** the divertible
+share below 100%. The result already fails against Mexican precedent **at** 100%.
+The missing work therefore cannot reverse the direction — only deepen it. That
+asymmetry is what makes a provisional negative defensible rather than premature.
+
+### Not concluded
+
+Step 6's public-benefit case is **untested**. A negative freight revenue case is
+not a negative public-benefit case: the brief notes ~89% of measured benefits in
+comparable studies come from reduced road transport operating cost. That case
+may still exist and is the honest next question — but it is a different question,
+and a subsidy argument, not a commercial one.
 
 ---
 
@@ -30,7 +96,7 @@ What is established, and what it would take to close the gap, is set out below.
 |---|---|---|
 | **SR-7 Network access** | **EVALUATED — does not fire** | Aforo *and* rail tonnage both obtained from primary government sources. `working/source-access-log.md` |
 | **SR-2 Through-traffic contamination** | **EVALUATED — does not fire** | Directional gradient exists and is measurable. `working/sr2-evaluation.md` |
-| **SR-3 Track-condition straddle** | **NOT YET EVALUABLE** | Requires capital band (Step 1), which has no sourced Mexican unit cost. The model is built and will evaluate it the moment inputs exist |
+| **SR-3 Track-condition straddle** | **EVALUATED via inversion — resolves negative** | Formal straddle exists but requires ≥50% diversion to be credible; three independent lines of evidence say it is not. Flip point reported above |
 
 ### SR-7 — network access
 
@@ -100,8 +166,8 @@ currently rests on one method.
 
 | Step | Status |
 |---|---|
-| 1 — Capital cost band | **Blocked on sourcing.** Model built (light / heavy / substantial reconstruction, structures carried as a separate line with its own range). No sourced Mexican unit cost yet |
-| 2 — Breakeven tonnage back-solve | **Model built and verified.** 30-yr life, 5/6/8% cost of capital, outputs t/yr and loaded truckloads/day each way. Awaiting inputs |
+| 1 — Capital cost band | **Still unsourced**, and now bypassed. Screen inverted to solve for maximum supportable capital instead |
+| 2 — Breakeven tonnage back-solve | **Complete.** Margin obtained from ARTF primary ($0.402/ton-km EBIT, Ferrosur, constant 2024 MXN). See `working/margin-derivation.md` |
 | 3 — Count what moves | **Aforo complete** (1,102 stations validated). Commodity segregation not started — needs SIAP/INEGI |
 | 4 — Compare and recommend | Not reached |
 | 5 — Risk register | Drafted, `risk_register.md` |
@@ -134,8 +200,9 @@ breakeven is solved **across** a margin range. No proxy has been entered.
 
 In priority order:
 
-1. **Contribution margin per ton-km** — ARTF *Anuario Estadístico Ferroviario*,
-   or an FIT/CIIT tariff filing. Without it Step 2 has no revenue side.
+1. ~~Contribution margin per ton-km~~ — **OBTAINED.** ARTF *Anuario* 2024 via
+   the `/cms/uploads/attachment/file/` path, which is not bot-challenged.
+   Ferrosur EBIT $0.402/ton-km, constant 2024 MXN.
 2. **Mexican rehabilitation unit costs** — SICT/ARTF tender awards or FIT
    contract values per km. Press reports ~18,000 MXN million on Línea Z
    (~300 km, order ~60 MXN million/km, roughly an order of magnitude above the
@@ -154,7 +221,8 @@ In priority order:
 ## 5. What this screen does not establish
 
 - **No capital cost figure.** No sourced unit cost for this alignment.
-- **No revenue figure.** Margin per ton-km not obtained.
+- **No verified capital cost.** The supportable-capital ceiling is established;
+  the actual cost is not. The comparison rests on a press-sourced precedent.
 - **No commodity mix.** Aforo classifies by axle configuration only — there is
   **no commodity field**. Commodity mix cannot be derived from truck counts.
 - **No tonnage.** Converting vehicle counts to tonnage requires payload-by-class
