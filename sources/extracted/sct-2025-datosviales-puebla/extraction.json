@@ -1,0 +1,7 @@
+{
+  "source_id": "sct-2025-datosviales-puebla",
+  "raw_filename": "sct-2025-datosviales-puebla.pdf",
+  "raw_sha256": "b6c37c73bd1876dd867ec3cd37fa61d80f3252be327610db50b5162981db1929",
+  "extractor": "pymupdf",
+  "extracted_utc": "2026-08-27T03:46:54+00:00"
+}

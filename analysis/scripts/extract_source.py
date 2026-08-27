@@ -68,6 +68,25 @@ def extract_marker(src: Path, out_dir: Path) -> str | None:
     return text
 
 
+def extract_pymupdf(src: Path, _out_dir: Path) -> str | None:
+    """Coordinate-aware text extraction.
+
+    Preferred over pdftotext/pypdf for the fixed-layout DGST tables: PyMuPDF
+    exposes word-level bounding boxes, so columns can be reconstructed
+    geometrically rather than inferred from reading order. Reading order in
+    these documents interleaves columns and silently scrambles rows.
+    """
+    try:
+        import pymupdf
+    except ImportError:
+        return None
+    doc = pymupdf.open(str(src))
+    out = []
+    for n, page in enumerate(doc, start=1):
+        out.append(f"\n\n<!-- page {n} -->\n\n{page.get_text()}")
+    return "".join(out)
+
+
 def extract_pdftotext(src: Path, _out_dir: Path) -> str | None:
     if shutil.which("pdftotext") is None:
         return None
@@ -94,6 +113,7 @@ def extract_pypdf(src: Path, _out_dir: Path) -> str | None:
 
 EXTRACTORS = (
     ("marker", extract_marker),
+    ("pymupdf", extract_pymupdf),
     ("pdftotext", extract_pdftotext),
     ("pypdf", extract_pypdf),
 )
