@@ -171,9 +171,51 @@ share below 100%. The result already fails against Mexican precedent **at** 100%
 and clears track-only renewal only at capture rates the corridor evidence
 contradicts. The missing work cannot reverse the direction.
 
+## Step 6 — public-benefit case, inverted rather than left blank
+
+Quantifying benefits directly needs current Mexican road operating costs. The
+only Mexican source located (IMT PT-179) is from **2001** and too stale to carry
+a benefit figure. So the same inversion was applied: **what external benefit
+would be required to close the gap?** That needs no benefit data and is
+falsifiable by any future study.
+
+Basis: World Bank **track-renewal-only** capital, annualised at 6% over 30
+years; commercial surplus at the ARTF margin of 0.402 MXN/ton-km.
+
+| Capture | Tonnage Mt/yr | Commercial surplus MXN m/yr | Annualised capital MXN m/yr | Gap | **Required external benefit** |
+|---:|---:|---:|---:|---:|---:|
+| 100% | 3.49 | 304 | 192–225 | none | commercial case alone suffices |
+| 50% | 1.75 | 152 | 192–225 | 40–73 | **0.11–0.19 MXN/ton-km** |
+| 30% | 1.05 | 91 | 192–225 | 101–134 | **0.44–0.59 MXN/ton-km** |
+| 15% | 0.52 | 46 | 192–225 | 146–179 | **1.29–1.58 MXN/ton-km** |
+
+**Reading it honestly, in both directions:**
+
+- At **50% capture** the required external benefit is **0.11–0.19 MXN/ton-km** —
+  modest, and plausibly met by avoided pavement damage, accident and CO₂
+  externalities. **The public-benefit case is not absurd at high capture.**
+- At **30%** it must roughly **match the entire commercial margin** (0.402).
+- At **15%** it must be **three to four times** the commercial margin.
+
+And this is for **track renewal alone** — before structures, signalling,
+right-of-way, or FIT's own operating deficit, which on the evidence would need
+permanent subsidy regardless.
+
+So Step 6 turns on the same variable everything else does: **capture rate**.
+The haul-distance evidence (216.5 km against a 678 km national mean) argues
+capture sits at the bottom of that table, where the public-benefit case becomes
+very demanding.
+
+**Still not computed**, and required before any of this becomes a benefit
+estimate: current Mexican road vehicle operating cost per veh-km; pavement
+damage avoided per ESAL-km on MEX-135D/190; Mexican accident and CO₂
+valuations; and the brief's own "~89% of benefits from road operating cost"
+figure, which **could not be located in any retrieved source** and is recorded
+as unverified rather than repeated.
+
 ### Not concluded
 
-Step 6's public-benefit case is **untested**. A negative freight revenue case is
+Step 6's public-benefit case is **bounded but not measured**. A negative freight revenue case is
 not a negative public-benefit case. Note though — ITF/OECD observes that for
 rail **freight** specifically, unlike roads or passenger rail, financial
 viability is legitimately a decision criterion, because a commercial

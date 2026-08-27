@@ -1,0 +1,25 @@
+Annuity factor @6%, 30 yr: 13.765
+
+ diversion  tonnage Mt  commercial surplus  annualised capital   GAP MXNm/yr  required external
+                                  MXN m/yr            MXN m/yr                     MXN / ton-km
+     100%        3.49                 304      192-225         -112--79        -0.15--0.10    
+      50%        1.75                 152      192-225           40-73          0.11-0.19     
+      30%        1.05                  91      192-225          101-134         0.44-0.59     
+      15%        0.52                  46      192-225          146-179         1.29-1.58     
+
+READ THIS AS: to justify TRACK RENEWAL ALONE, external benefits would have to be
+worth the figures in the last column, per net tonne-kilometre carried, on top of
+every peso of commercial margin the traffic already earns.
+
+For scale, the commercial margin itself is 0.402 MXN/ton-km. So at realistic
+capture the public-benefit case must deliver several times the entire commercial
+value of the freight, just to fund track renewal -- before structures,
+signalling, right-of-way, or the operator's own operating deficit.
+
+NOT COMPUTED, and required before any of this becomes a benefit estimate:
+  - current Mexican road vehicle operating cost per veh-km (IMT PT-179 is 2001)
+  - pavement damage cost avoided per ESAL-km on MEX-135D / MEX-190
+  - accident and CO2 valuations for Mexican federal highways
+  - the brief's '~89% of benefits from road operating cost' claim, which could
+    NOT be located in any retrieved source and is therefore unverified
+
