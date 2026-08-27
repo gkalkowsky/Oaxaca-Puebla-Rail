@@ -104,6 +104,9 @@ closed by substituting press reporting.
 | FIT best year cost recovery (2019) | 36.2 | % | same |
 | Ferrosur revenue per ton-km | 0.93 | MXN / ton-km, const. 2024 | `artf-2024-anuario-ferroviario` Tabla 7-8 |
 | **Max supportable capital @100% capture** | **15.8–21.6** | MXN million / km | derived |
+| **National mean rail haul** | **678** | km | `artf-2024-anuario-ferroviario` Tabla 2-2 |
+| Corridor as share of mean haul | 32 | % | derived — **corridor far too short for rail economics** |
+| **Aprovechamiento Especial subzone** (only one permitting infrastructure) | **239.2** | ha (0.049% of reserve) | `conanp-2013-pm-tehuacan-cuicatlan` |
 | Mexican precedent (Línea Z) | ~60 | MXN million / km | **[PRESS — UNVERIFIED]** |
 | UNESCAP light rehabilitation | ~9.25 | MXN million / km | brief, at 18.5 MXN/USD [ASSUMED] |
 
@@ -141,16 +144,19 @@ path directly. This is what unblocked ARTF after it was written off as blocked.
 
 The verdict is issued. Remaining work sharpens it; it cannot reverse it.
 
-1. **Step 6 public-benefit case — the honest open question.** A negative freight
+1. **Bottom-up tonnage cross-check** (INEGI Censos Económicos — `inegi.org.mx`
+   is reachable; SIAP is not). The brief's second method. Can only reduce the
+   divertible share.
+2. **Step 6 public-benefit case — the honest open question.** A negative freight
    revenue case is not a negative public-benefit case (~89% of measured benefits
    in comparable studies are reduced road operating cost). Untested.
-2. **Step 3b commodity segregation** (SIAP, INEGI Censos Económicos) — would
-   pin the diversion rate. Can only reduce divertible share, so it can only
-   deepen the negative.
-3. **Capital unit cost**, still unsourced. Try the CDN pattern above for ASF
-   audit reports and SICT tender awards.
-4. **Legal history** still unverified — DOF and Wayback both egress-blocked.
-   ARTF Tabla 1-1 does confirm FIT holds Vía Corta Oaxaca.
+3. **GIS overlay** of CONANP subzone polygons on the alignment — the one thing
+   that would settle the permitting constraint. Shapefile not yet located.
+4. **Capital unit cost for Mexico**, still unsourced. Try the CDN pattern for
+   ASF audit reports and SICT tender awards.
+5. **Legal history** still unverified — DOF and Wayback both egress-blocked.
+   ARTF Tabla 1-1 confirms FIT holds Vía Corta Oaxaca; SCT's El Mirador
+   confirms 367 km, Nov 1892, narrow→standard gauge.
 
 ## Working rules
 

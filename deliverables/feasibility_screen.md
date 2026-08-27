@@ -82,6 +82,14 @@ diversion is credible, and it is not:
    intermediate destinations are **not on the railway**.
 3. Much of Oaxaca's tradeable output is in explicitly **low-diversion** classes
    (mezcal, coffee, avocado, mango, figs, refrigerated, time-sensitive).
+4. **The corridor is far too short for Mexican rail freight economics.** ARTF
+   Tabla 2-2 gives a system mean haul of **678 km**; no product group averages
+   near 216.5 km, which is **53%** of even the shortest-hauling group
+   (Inorgánicos, 409 km) and **32%** of the system mean. Rail's advantage over
+   road is distance-dependent — terminal costs amortised over line haul — so
+   this corridor sits below the range where Mexican rail demonstrably competes.
+   This converts the diversion rate from assumption to evidence.
+   `[artf-2024-anuario-ferroviario Tabla 2-2; working/step3b-commodity-and-haul.md]`
 
 ### Corroboration from the operator's own accounts
 
@@ -106,11 +114,55 @@ The IMT payload bridge **raised** supportable capital from 13.6–18.6 to
 more tonnage than the assumption they replaced. Reported because it happened,
 not because it helps.
 
+## A second, independent constraint: environmental permitting
+
+This does not depend on the economics at all, and would bind even if they were
+favourable.
+
+**The reserve has no core or buffer zones.** The brief asks whether the ROW
+crosses core zones, buffer, or lies outside the property. That framing does not
+apply: the *declaratoria* established only a **general polygon** and set no zona
+núcleo or zona de amortiguamiento `[conanp-2013-pm-tehuacan-cuicatlan p.140]`.
+The operative instrument is **subzonal**.
+
+| Subzona | Hectares | % | Infrastructure rule |
+|---|---:|---:|---|
+| Preservación | 141,782 | 29.06% | Maintenance of **existing roads** only; opening trails/tracks/roads **prohibited** |
+| Uso Tradicional | 133,739 | 27.41% | Only infrastructure **in support of** research / education / low-impact tourism |
+| Aprov. Sust. Recursos Naturales | 33,047 | 6.77% | Same |
+| Aprov. Sust. Ecosistemas | 178,169 | 36.51% | Same |
+| Uso Público | 1,001 | 0.21% | Tourism-oriented |
+| **Aprovechamiento Especial** | **239** | **0.049%** | **Only subzona permitting general infrastructure construction** |
+
+> The single subzone in which general "construcción y mantenimiento de
+> infraestructura" is permitted covers **239.2 ha — 0.049% of the reserve** —
+> across 14 polygons that are, without exception, **quarries, salt works and the
+> Tehuacán landfill**. None is a transport corridor. A 216.5 km alignment at an
+> assumed 20 m right-of-way would cover ~433 ha: **1.8× that entire subzone.**
+
+CONANP separately identifies **federal 135 Tehuacán-Cuicatlán** among roads
+causing "inestabilidad de taludes, erosión, incendios" in the Cañada, and names
+right-of-way clearing as a fire-pressure source (pp. 81, 83) — independently
+corroborating the geotechnical risk.
+
+**Caveats that cut the other way, stated because they are real:** the railway
+predates the reserve by a century (1892 vs 1998) and is mapped in the
+programme's own cartography as an existing feature; rehabilitating an existing
+ROW might be characterised as *maintenance* rather than *construction*; and **no
+GIS overlay was performed**, so which subzones the alignment actually crosses is
+not established. This is a SEMARNAT/CONANP determination, not a desk conclusion.
+Full treatment: `working/environmental-permitting.md`.
+
 ### What would overturn it
 
 Only a demand argument this screen deliberately does not make: that rail would
-generate **new** freight not currently on the road. That is demand forecasting,
-which the brief forbids, and it is an assumption, not evidence.
+generate **new** freight not currently on the road, or that the line would
+operate as a **feeder** interlining onto the national network at much longer
+effective hauls. The feeder case is the strongest argument available and is
+recorded as the principal residual uncertainty — but only the 216.5 km segment
+earns against its own rehabilitation, which is how the model computes, and a
+feeder role implies tonnage the revealed traffic does not show. Both are demand
+forecasting, which the brief forbids.
 
 ### Why it is safe to issue before the commodity segregation
 
