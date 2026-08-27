@@ -33,8 +33,17 @@ ARTIC_VEH_DAY = 500.0      # both directions, corridor terminus
 LENGTH_KM = 216.5
 LIFE = 30
 RATES = (0.05, 0.06, 0.08)
-PAYLOAD = (25.0, 30.0)     # [ASSUMPTION] tonnes per loaded articulated truck
-EMPTY = (0.50, 0.30)       # [Prompt.md] 30-50% empty running
+# Payload bridge, now from a MEXICAN PRIMARY SOURCE rather than an assumption.
+# IMT Publicacion Tecnica 179, Tabla 4.7 "Porcentajes Promedio de Llenado":
+# average load actually carried (carga promedio), tonnes, by configuration.
+# NOTE [STALE - 2001 data, 25 years old]. Load factors may have risen since.
+# carga promedio is the average load across observed vehicles, so it ALREADY
+# nets out empty and partial running -- applying a further empty-running
+# discount on top would double-count.
+IMT_LOAD = {"T3S2": 13.2, "T3S3": 20.9, "T3S2R4": 30.1}
+# Class mix at the corridor terminus, from the aforo extraction (mean of the
+# two MEX-135D stations north of Oaxaca City, data year 2024).
+TERMINUS_MIX = {"T3S2": 278.0, "T3S3": 86.0, "T3S2R4": 136.0}   # veh/day
 MARGINS = {"EBIT basis (ARTF, conservative)": 0.402,
            "midpoint": 0.660,
            "gross revenue basis (generous)": 0.930}
@@ -46,10 +55,10 @@ def annuity_factor(r: float, n: int) -> float:
 
 
 def corridor_tonnage() -> tuple[float, float]:
-    """Annual tonnes moving in the corridor by articulated truck, low and high."""
-    lo = ARTIC_VEH_DAY * (1 - EMPTY[0]) * PAYLOAD[0] * 365   # most conservative
-    hi = ARTIC_VEH_DAY * (1 - EMPTY[1]) * PAYLOAD[1] * 365   # most generous
-    return lo, hi
+    """Annual tonnes in the corridor, from observed class mix x IMT load factors."""
+    per_day = sum(TERMINUS_MIX[k] * IMT_LOAD[k] for k in TERMINUS_MIX)
+    t = per_day * 365
+    return t, t   # single figure now: the bridge is sourced, not a range
 
 
 def main() -> None:
@@ -57,28 +66,25 @@ def main() -> None:
     print("=" * 78)
     print("CORRIDOR TONNAGE implied by observed articulated traffic")
     print("=" * 78)
-    print(f"  {ARTIC_VEH_DAY:.0f} artic veh/day both directions (SR-2 bound, aforo 2024)")
-    print(f"  x (1 - empty running {EMPTY[0]:.0%}..{EMPTY[1]:.0%}) x payload "
-          f"{PAYLOAD[0]:.0f}-{PAYLOAD[1]:.0f} t [ASSUMPTIONS] x 365")
-    print(f"  => {lo/1e6:.2f} - {hi/1e6:.2f} million tonnes/year in the corridor\n")
+    mix = "  ".join(f"{k}={v:.0f}@{IMT_LOAD[k]}t" for k, v in TERMINUS_MIX.items())
+    print(f"  terminus class mix (veh/day, aforo 2024): {mix}")
+    print(f"  x IMT PT-179 Tabla 4.7 carga promedio [PRIMARY, but 2001 - STALE] x 365")
+    print(f"  weighted mean load = {sum(TERMINUS_MIX[k]*IMT_LOAD[k] for k in TERMINUS_MIX)/sum(TERMINUS_MIX.values()):.1f} t/veh")
+    print(f"  => {hi/1e6:.2f} million tonnes/year in the corridor\n")
 
     print("=" * 78)
     print("MAXIMUM SUPPORTABLE CAPITAL  (MXN million per route-km, 216.5 km, 30-yr life)")
     print("=" * 78)
     for mname, margin in MARGINS.items():
         print(f"\n--- margin basis: {mname}  =  {margin:.3f} MXN / net ton-km ---")
-        print(f"    {'diversion':>10} {'tonnage Mt/yr':>16} {'surplus MXNm/yr':>17}"
-              f"  {'  '.join(f'@{r:.0%} MXNm/km' for r in RATES)}")
+        print(f"    {'diversion':>10} {'tonnage Mt/yr':>15} {'surplus MXNm/yr':>16}"
+              f"  {''.join(f'@{r:.0%} MXNm/km' for r in RATES)}")
         for div in DIVERSION:
             t_lo, t_hi = lo * div, hi * div
             s_lo = t_lo * LENGTH_KM * margin / 1e6
             s_hi = t_hi * LENGTH_KM * margin / 1e6
-            cells = []
-            for r in RATES:
-                af = annuity_factor(r, LIFE)
-                cells.append(f"{s_lo*af/LENGTH_KM:6.1f}-{s_hi*af/LENGTH_KM:<6.1f}")
-            print(f"    {div:>9.0%} {t_lo/1e6:7.2f}-{t_hi/1e6:<6.2f} "
-                  f"{s_lo:7.0f}-{s_hi:<7.0f}  {'  '.join(cells)}")
+            cells = [f"{s_hi*annuity_factor(r, LIFE)/LENGTH_KM:12.1f}" for r in RATES]
+            print(f"    {div:>9.0%} {t_hi/1e6:15.2f} {s_hi:16.0f}  {''.join(cells)}")
 
     print("\n" + "=" * 78)
     print("BENCHMARKS TO COMPARE AGAINST")
@@ -86,8 +92,11 @@ def main() -> None:
     print("  UNESCAP light rehabilitation  : < USD 500,000/route-km")
     print("                                  ~9.3 MXN million/km at 18.5 MXN/USD")
     print("                                  [rate is an ASSUMPTION - state rate and date]")
-    print("  Linea Z (Mexican precedent)   : ~18,000 MXN million / ~300 km")
-    print("                                  ~60 MXN million/km  [PRESS - UNVERIFIED]")
+    print("  Linea Z (Mexican precedent)   : ~60 MXN million/km  [PRESS - UNVERIFIED]")
+    print("  World Bank general renewal    : ~12.2-14.3 MXN million/km  TRACK ONLY")
+    print("  World Bank partial renewal    : ~6.3-9.3   MXN million/km  TRACK ONLY")
+    print("    [wb-2020-serbia-railways-lcc Tabla 11; currency not stated in source;")
+    print("     EXCLUDES bridges, drainage, slope stabilisation, signalling, ROW]")
 
 
 if __name__ == "__main__":

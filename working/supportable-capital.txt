@@ -1,34 +1,35 @@
 ==============================================================================
 CORRIDOR TONNAGE implied by observed articulated traffic
 ==============================================================================
-  500 artic veh/day both directions (SR-2 bound, aforo 2024)
-  x (1 - empty running 50%..30%) x payload 25-30 t [ASSUMPTIONS] x 365
-  => 2.28 - 3.83 million tonnes/year in the corridor
+  terminus class mix (veh/day, aforo 2024): T3S2=278@13.2t  T3S3=86@20.9t  T3S2R4=136@30.1t
+  x IMT PT-179 Tabla 4.7 carga promedio [PRIMARY, but 2001 - STALE] x 365
+  weighted mean load = 19.1 t/veh
+  => 3.49 million tonnes/year in the corridor
 
 ==============================================================================
 MAXIMUM SUPPORTABLE CAPITAL  (MXN million per route-km, 216.5 km, 30-yr life)
 ==============================================================================
 
 --- margin basis: EBIT basis (ARTF, conservative)  =  0.402 MXN / net ton-km ---
-     diversion    tonnage Mt/yr   surplus MXNm/yr  @5% MXNm/km  @6% MXNm/km  @8% MXNm/km
-         100%    2.28-3.83       199-334        14.1-23.7      12.6-21.2      10.3-17.3  
-          50%    1.14-1.92        99-167         7.0-11.8       6.3-10.6       5.2-8.7   
-          30%    0.68-1.15        60-100         4.2-7.1        3.8-6.4        3.1-5.2   
-          15%    0.34-0.57        30-50          2.1-3.6        1.9-3.2        1.5-2.6   
+     diversion   tonnage Mt/yr  surplus MXNm/yr  @5% MXNm/km@6% MXNm/km@8% MXNm/km
+         100%            3.49              304          21.6        19.3        15.8
+          50%            1.74              152          10.8         9.7         7.9
+          30%            1.05               91           6.5         5.8         4.7
+          15%            0.52               46           3.2         2.9         2.4
 
 --- margin basis: midpoint  =  0.660 MXN / net ton-km ---
-     diversion    tonnage Mt/yr   surplus MXNm/yr  @5% MXNm/km  @6% MXNm/km  @8% MXNm/km
-         100%    2.28-3.83       326-548        23.1-38.9      20.7-34.8      17.0-28.5  
-          50%    1.14-1.92       163-274        11.6-19.4      10.4-17.4       8.5-14.2  
-          30%    0.68-1.15        98-164         6.9-11.7       6.2-10.4       5.1-8.5   
-          15%    0.34-0.57        49-82          3.5-5.8        3.1-5.2        2.5-4.3   
+     diversion   tonnage Mt/yr  surplus MXNm/yr  @5% MXNm/km@6% MXNm/km@8% MXNm/km
+         100%            3.49              499          35.4        31.7        25.9
+          50%            1.74              249          17.7        15.9        13.0
+          30%            1.05              150          10.6         9.5         7.8
+          15%            0.52               75           5.3         4.8         3.9
 
 --- margin basis: gross revenue basis (generous)  =  0.930 MXN / net ton-km ---
-     diversion    tonnage Mt/yr   surplus MXNm/yr  @5% MXNm/km  @6% MXNm/km  @8% MXNm/km
-         100%    2.28-3.83       459-772        32.6-54.8      29.2-49.1      23.9-40.1  
-          50%    1.14-1.92       230-386        16.3-27.4      14.6-24.5      11.9-20.1  
-          30%    0.68-1.15       138-231         9.8-16.4       8.8-14.7       7.2-12.0  
-          15%    0.34-0.57        69-116         4.9-8.2        4.4-7.4        3.6-6.0   
+     diversion   tonnage Mt/yr  surplus MXNm/yr  @5% MXNm/km@6% MXNm/km@8% MXNm/km
+         100%            3.49              703          49.9        44.7        36.5
+          50%            1.74              351          24.9        22.3        18.3
+          30%            1.05              211          15.0        13.4        11.0
+          15%            0.52              105           7.5         6.7         5.5
 
 ==============================================================================
 BENCHMARKS TO COMPARE AGAINST
@@ -36,5 +37,8 @@ BENCHMARKS TO COMPARE AGAINST
   UNESCAP light rehabilitation  : < USD 500,000/route-km
                                   ~9.3 MXN million/km at 18.5 MXN/USD
                                   [rate is an ASSUMPTION - state rate and date]
-  Linea Z (Mexican precedent)   : ~18,000 MXN million / ~300 km
-                                  ~60 MXN million/km  [PRESS - UNVERIFIED]
+  Linea Z (Mexican precedent)   : ~60 MXN million/km  [PRESS - UNVERIFIED]
+  World Bank general renewal    : ~12.2-14.3 MXN million/km  TRACK ONLY
+  World Bank partial renewal    : ~6.3-9.3   MXN million/km  TRACK ONLY
+    [wb-2020-serbia-railways-lcc Tabla 11; currency not stated in source;
+     EXCLUDES bridges, drainage, slope stabilisation, signalling, ROW]

@@ -13,59 +13,98 @@ Screening study. Concept level. Prepared against `Prompt.md`.
 > **Provisional, and conditional in one specific way stated below.** The
 > outstanding work can only strengthen this result, not reverse it.
 
-The screen was inverted to reach this. A planning-level capital cost for the
-alignment could not be sourced, so rather than wait on it, the question was
-turned around: **given what the corridor demonstrably moves, and what Mexican
+Capital cost for this alignment could not be sourced in Mexico, so the screen
+was inverted: **given what the corridor demonstrably moves, and what Mexican
 railways demonstrably earn per ton-km, how much capital could the line
 support?** That needs no capital estimate.
 
-**Maximum supportable capital** — ARTF EBIT margin basis, 216.5 km, 30-year
-life, in MXN million per route-km:
+Both sides now rest on primary sources:
+
+- **Traffic** — 500 articulated veh/day at the corridor terminus, by class
+  (T3S2 278, T3S3 86, T3S2R4 136) `[sct-2025-datosviales-*, data year 2024]`
+- **Payload bridge** — IMT *carga promedio* by configuration: 13.2 / 20.9 /
+  30.1 t, weighted mean **19.1 t/vehicle** `[imt-pt179 Tabla 4.7 — PRIMARY but
+  2001, STALE]`. This replaced an assumption, and *raised* the tonnage.
+- **Margin** — Ferrosur EBIT **0.402 MXN/net ton-km**, constant 2024 MXN
+  `[artf-2024-anuario-ferroviario]`
+
+→ **Corridor tonnage 3.49 Mt/year.**
+
+**Maximum supportable capital**, MXN million per route-km, 216.5 km, 30-year life:
 
 | Share of corridor freight won | @5% | @6% | @8% |
 |---|---|---|---|
-| **100%** (impossible, shown as a ceiling) | 18.6 | 16.7 | **13.6** |
-| 50% | 9.3 | 8.3 | 6.8 |
-| 30% | 5.6 | 5.0 | 4.1 |
-| 15% | 2.8 | 2.5 | 2.0 |
+| **100%** (impossible; a ceiling, not a case) | 21.6 | 19.3 | **15.8** |
+| 50% | 10.8 | 9.7 | 7.9 |
+| 30% | 6.5 | 5.8 | 4.7 |
+| 15% | 3.2 | 2.9 | 2.4 |
 
-Against the benchmarks:
+**Against the benchmarks:**
 
-- **Mexican precedent (Línea Z, ~60 MXN million/km)** — the corridor fails at
-  **every** diversion rate and **every** cost of capital, including a physically
-  impossible 100% capture of all corridor articulated freight. It is short by
-  roughly **3× to 4×** at the ceiling and by an order of magnitude at plausible
-  capture. *(Press-sourced and unverified — but the gap is far too wide for
-  source quality to change the direction.)*
-- **UNESCAP light rehabilitation (<USD 500,000/route-km ≈ 9.25 MXN million/km
-  at 18.5 MXN/USD [ASSUMED rate — state rate and date])** — clears **only at
-  ~50% diversion or above**.
+| Benchmark | MXN m/km | Verdict |
+|---|---|---|
+| Línea Z Mexican precedent `[PRESS — UNVERIFIED]` | ~60 | **Fails at every capture rate and every margin basis**, including 100% capture on the gross-revenue basis (max 49.9) |
+| World Bank **general** renewal — *track only* | 12.2–14.3 | Clears **only at ~100% capture** |
+| World Bank **partial** renewal — *track only* | 6.3–9.3 | Clears **only at ~50% capture** |
+
+`[wb-2020-serbia-railways-lcc Tabla 11]`. Currency is **not stated in the
+source**; both plausible currencies are carried and the direction is unchanged.
+
+### The decisive point about those World Bank figures
+
+They are **track only** — rail, sleepers, ballast, subsoil. They exclude
+**bridges, drainage and slope stabilisation** (the dominant uncertainty in a
+canyon at the convergence of two fault systems), signalling, and right-of-way
+clearance after 20+ years dormant. So:
+
+> Even ignoring structures, signalling and right-of-way **entirely**, the
+> corridor must capture roughly **half of all its articulated freight** to fund
+> **track renewal alone**.
+
+Every excluded item pushes the same way.
 
 ### The flip point, which the brief asks for by name
 
-> **~50% capture of all corridor articulated freight**, and only if
-> rehabilitation is achievable at the international *light* benchmark rather
-> than at Mexican precedent cost.
+> **~50% capture of all corridor articulated freight**, *and* rehabilitation
+> achievable at the World Bank *partial*-renewal level with structures,
+> signalling and ROW costing effectively nothing.
 
-That is the single most decision-relevant number here. Both conditions must
-hold simultaneously.
+Both conditions must hold simultaneously.
 
 ### Why this resolves negative rather than INDETERMINATE
 
-By the letter of SR-3 the scenarios straddle: light rehabilitation clears at
-≥50% diversion while substantial reconstruction fails everywhere. But the
-straddle only exists **if ≥50% diversion is credible, and three independent
-lines of evidence say it is not**:
+Formally the capital scenarios straddle. The straddle only exists if ≥50%
+diversion is credible, and it is not:
 
-1. The road that actually parallels the rail alignment through the Cañada
-   carries **10–34 articulated veh/day**, not 500.
-2. The 500 veh/day figure is measured on MEX-135D, which runs the **Mixteca** —
-   its intermediate destinations are **not on the railway**.
-3. A large share of Oaxaca's tradeable output is in explicitly **low-diversion**
-   classes (mezcal, coffee, avocado, mango, figs, refrigerated, time-sensitive).
+1. The road that actually parallels the alignment through the Cañada carries
+   **10–34 articulated veh/day**, not 500.
+2. The 500 veh/day is measured on MEX-135D, which runs the **Mixteca** — its
+   intermediate destinations are **not on the railway**.
+3. Much of Oaxaca's tradeable output is in explicitly **low-diversion** classes
+   (mezcal, coffee, avocado, mango, figs, refrigerated, time-sensitive).
 
-A 20-year-dormant line through a fault-zone canyon is also an unlikely candidate
-for the *light* end of the rehabilitation range.
+### Corroboration from the operator's own accounts
+
+**FIT — the assignee of Vía Corta Oaxaca (ARTF Tabla 1-1) — has never covered
+its operating costs.** ARTF Tablas 7-3 and 7-5, constant 2024 MXN: an operating
+loss in every one of the six published years; 2024 cost recovery **16.2%**,
+costs **6.2× revenue**; best year on record 2019 at **36.2%**, before the
+Línea Z works that suppressed later revenue.
+
+The analysis above used **Ferrosur's** margin — a profitable private operator.
+On the actual operator's realised economics the margin available to service
+rehabilitation capital is **negative**, and there is no positive capital ceiling
+to compute at all. See `working/operator-economics.md`.
+
+A long-run note, from SCT's own account: the Ferrocarril Mexicano del Sur was
+recording losses of over six million pesos a year by **1896**.
+
+### A correction that went against this conclusion
+
+The IMT payload bridge **raised** supportable capital from 13.6–18.6 to
+15.8–21.6 MXN m/km at the ceiling, because IMT's measured load factors imply
+more tonnage than the assumption they replaced. Reported because it happened,
+not because it helps.
 
 ### What would overturn it
 
@@ -76,17 +115,20 @@ which the brief forbids, and it is an assumption, not evidence.
 ### Why it is safe to issue before the commodity segregation
 
 The segregation (SIAP / INEGI, not yet done) can only **reduce** the divertible
-share below 100%. The result already fails against Mexican precedent **at** 100%.
-The missing work therefore cannot reverse the direction — only deepen it. That
-asymmetry is what makes a provisional negative defensible rather than premature.
+share below 100%. The result already fails against Mexican precedent **at** 100%,
+and clears track-only renewal only at capture rates the corridor evidence
+contradicts. The missing work cannot reverse the direction.
 
 ### Not concluded
 
 Step 6's public-benefit case is **untested**. A negative freight revenue case is
-not a negative public-benefit case: the brief notes ~89% of measured benefits in
-comparable studies come from reduced road transport operating cost. That case
-may still exist and is the honest next question — but it is a different question,
-and a subsidy argument, not a commercial one.
+not a negative public-benefit case. Note though — ITF/OECD observes that for
+rail **freight** specifically, unlike roads or passenger rail, financial
+viability is legitimately a decision criterion, because a commercial
+relationship exists between infrastructure owner and haulier
+`[itf-2020-road-rail-cba]`. The public-benefit case here would have to justify a
+**permanent operating subsidy**, not merely a capital grant — which is what
+FIT's accounts show is actually required.
 
 ---
 

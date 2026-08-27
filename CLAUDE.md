@@ -96,8 +96,14 @@ closed by substituting press reporting.
 | Aforo data year | 2024 | year | `sct-2025-datosviales-oaxaca` (publ. 2025) |
 
 | **Contribution margin (Ferrosur EBIT/ton-km)** | **0.402** | MXN / net ton-km, const. 2024 | `artf-2024-anuario-ferroviario` |
+| Weighted mean load per articulated vehicle | 19.1 | tonnes | `imt-pt179` Tabla 4.7 [2001 — STALE] |
+| **Corridor tonnage** | **3.49** | Mt / year | derived (aforo class mix × IMT loads) |
+| World Bank general renewal, **track only** | 12.2–14.3 | MXN million / km | `wb-2020-serbia-railways-lcc` Tabla 11 |
+| World Bank partial renewal, **track only** | 6.3–9.3 | MXN million / km | `wb-2020-serbia-railways-lcc` Tabla 11 |
+| **FIT cost recovery 2024** | **16.2** | % | `artf-2024-anuario-ferroviario` Tablas 7-3, 7-5 |
+| FIT best year cost recovery (2019) | 36.2 | % | same |
 | Ferrosur revenue per ton-km | 0.93 | MXN / ton-km, const. 2024 | `artf-2024-anuario-ferroviario` Tabla 7-8 |
-| **Max supportable capital @100% capture** | **13.6–18.6** | MXN million / km | derived |
+| **Max supportable capital @100% capture** | **15.8–21.6** | MXN million / km | derived |
 | Mexican precedent (Línea Z) | ~60 | MXN million / km | **[PRESS — UNVERIFIED]** |
 | UNESCAP light rehabilitation | ~9.25 | MXN million / km | brief, at 18.5 MXN/USD [ASSUMED] |
 

@@ -5,7 +5,7 @@ The reproducibility record for this screen. Raw documents are **not** committed
 markdown under `sources/extracted/` **is** committed and is what deliverables
 cite.
 
-**Status: seven sources retrieved (2026-08-27), six primary.** Access to Mexican
+**Status: ten sources retrieved (2026-08-27), eight primary.** Access to Mexican
 government hosts is partly blocked; the routing that worked, and what remains
 unobtainable, is recorded in §1 and in `working/source-access-log.md`.
 
@@ -25,6 +25,9 @@ committed; supersede it with a new row and mark the old one `superseded`.
 | `artf-2023-anuario-ferroviario` | Anuario Estadístico Ferroviario 2023 | ARTF / SICT | primary | https://www.gob.mx/cms/uploads/attachment/file/920778/Anuario_2023_ARTF.pdf | 2026-08-27 | `cdc6d2aefee528a407064e5e054d35a91709a6baafe53ffcdf0d0901d96bc8eb` | `sources/extracted/artf-2023-anuario-ferroviario/` | active |
 | `fit-2021-programa-inversion` | Programa Institucional 2021-2024 FIT — Avance y Resultados 2021 | FIT (SEMAR) | primary | https://www.gob.mx/cms/uploads/attachment/file/735993/47_PI_FIT_AyR21.pdf | 2026-08-27 | `87e4e41d969719f669dc8b56af533cedf13fa4ded29579f72ffc811930aea1fc` | `sources/extracted/fit-2021-programa-inversion/` | active |
 | `ciep-2024-infraestructura-ferroviaria` | Infraestructura Ferroviaria: Presupuesto 2013-2024 | CIEP | secondary | https://ciep.mx/wp-content/uploads/2024/10/Infraestructura-ferroviaria.-Presupuesto-2013-2024.pdf | 2026-08-27 | `948485e47e8dd24ffde16a84dbd87b18c95a3b4a6e745a2f2a4ca6c4dca4a654` | `sources/extracted/ciep-2024-infraestructura-ferroviaria/` | active |
+| `wb-2020-serbia-railways-lcc` | Serbia Railways Asset Management Plan Using Life-Cycle Costs (AUS0001540) | World Bank | primary | https://documents1.worldbank.org/curated/en/726091593064265592/pdf/Serbia-Railways-Asset-Management-Plan-Using-Life-Cycle-Costs.pdf | 2026-08-27 | `9894572c04566eb7dd6a13045b95bdb6000ce09e1a3f9d2addd15f4b961e3f8e` | `sources/extracted/wb-2020-serbia-railways-lcc/` | active |
+| `itf-2020-road-rail-cba` | Comparing Road and Rail Investment in Cost-Benefit Analysis (ITF Discussion Paper) | OECD / ITF | secondary | https://www.oecd.org/content/dam/oecd/en/publications/reports/2020/12/comparing-road-and-rail-investment-in-cost-benefit-analysis_8452f4cb/71792956-en.pdf | 2026-08-27 | `eb3a93a2c59c8b6ed62fcdc664e585b1743d39637538bdbbaff8886b60c45d7c` | `sources/extracted/itf-2020-road-rail-cba/` | active |
+| `imt-pt179-costos-operacion-vehicular` | Análisis de Costos de Operación Vehicular del Autotransporte de Carga (Publicación Técnica 179, 2001) | IMT | primary | https://imt.mx/archivos/Publicaciones/PublicacionTecnica/pt179.pdf | 2026-08-27 | `27e7a5e65adc855e73313e095b1a5f2d91b5d280cb8c4594547731b3730a04d2` | `sources/extracted/imt-pt179-costos-operacion-vehicular/` | active |
 
 All three are born-digital (text layer present), extracted with `pymupdf`.
 Identity of each was verified by reading page 1, not by trusting the filename.
@@ -36,7 +39,10 @@ Identity of each was verified by reading page 1, not by trusting the filename.
 | DOF notices (2003 condition, 2012 concession exclusion, 2023 FIT assignment) | Egress policy denial on `www.dof.gob.mx` | Corridor legal history unverifiable from the primary record |
 | Wayback captures | Egress policy blocks `web.archive.org/web/` capture paths | The brief's designated fallback for link rot is unavailable |
 | ~~ARTF *Anuario Estadístico Ferroviario*~~ | **RESOLVED.** The HTML page is bot-challenged, but the PDF is served unchallenged from `www.gob.mx/cms/uploads/attachment/file/...` | Margin obtained: Ferrosur EBIT $0.402/ton-km |
-| Mexican rehabilitation unit cost per km | ASF serves a JS application; direct PDF paths 404; DOF egress-blocked | Capital band unsourced. Bypassed by inverting to supportable capital |
+| Mexican rehabilitation unit cost per km | ASF serves a JS application; `proyectosmexico.gob.mx` will not connect (HTTP 000); `ppiaf.org` and `ppp.worldbank.org` return Cloudflare challenges; DOF egress-blocked | **Still unsourced for Mexico.** Substituted with a World Bank international benchmark, clearly labelled as a transfer |
+| UNESCAP light-rehabilitation figure at source | `unescap.org` HTTP 403 | Brief's `< USD 500,000/route-km` could not be verified directly. **Corroborated independently** by World Bank partial-renewal unit costs |
+| The brief's "~89% of benefits from road operating cost" | Not located in any retrieved source | Step 6's benefit structure is **unverified**. Recorded rather than repeated as fact |
+| IADB publications | `publications.iadb.org` HTTP 403 challenge | Latin American rail benchmarks unavailable from that source |
 | UNESCO property 1534 boundary | `whc.unesco.org` HTTP 403 | Biosphere-reserve zoning overlap not yet determinable |
 
 Column rules:
