@@ -1,16 +1,30 @@
 #!/usr/bin/env python3
-"""Build analysis/breakeven_model.xlsx.
+"""Build analysis/breakeven_model.xlsx — freight tonnage back-solve.
 
-The workbook is generated, not hand-edited, so the model's structure lives in
-version control as reviewable code rather than as an opaque binary diff. Run
-this to recreate it:
+Regenerate with:  python3 analysis/scripts/build_breakeven_model.py
 
-    python3 analysis/scripts/build_breakeven_model.py
+The task does NOT forecast demand. It back-solves the tonnage the line must
+carry to cover its costs, then asks whether the corridor moves that much in
+rail-divertible commodities.
 
-Every input on the Assumptions sheet ships blank with a Source column beside
-it. Blank means "not yet established" -- the formulas return empty rather than
-a plausible-looking zero, so the workbook cannot show a breakeven figure that
-no source supports. Fill an input only together with its citation.
+THE O&M CIRCULARITY, HANDLED EXPLICITLY
+Track maintenance scales with gross passing tonnage, so O&M is not independent
+of the tonnage being solved for. Both revenue and variable O&M are linear in
+tonnage, so the circularity closes algebraically rather than by iteration:
+
+    margin x T x L  =  AnnualCapital + FixedOM + varOM x T x (1+tare) x L
+    T = (AnnualCapital + FixedOM) / ( L x ( margin - varOM x (1+tare) ) )
+
+The denominator is the net contribution per ton-km AFTER track wear. If it goes
+to zero or below, no tonnage breaks even and the model says so rather than
+returning a huge number. That guard is the point: it is the failure mode that a
+naive model hides.
+
+MARGIN IS SWEPT, NOT ASSUMED
+ARTF's commodity-level contribution margin is not public and its Anuario was
+unreachable (bot challenge). Rather than substitute a US Class I figure behind
+the scenes, breakeven is solved ACROSS a margin range so the reader sees how
+much the answer depends on it.
 """
 
 from __future__ import annotations
@@ -26,271 +40,315 @@ OUT = ROOT / "analysis" / "breakeven_model.xlsx"
 
 TITLE = Font(bold=True, size=14)
 HEAD = Font(bold=True, color="FFFFFF")
-SECTION = Font(bold=True)
+SEC = Font(bold=True)
 NOTE = Font(italic=True, size=9, color="666666")
+WARN = Font(bold=True, color="9C0006")
 HEAD_FILL = PatternFill("solid", fgColor="1F3864")
-SECTION_FILL = PatternFill("solid", fgColor="D9E2F3")
-INPUT_FILL = PatternFill("solid", fgColor="FFF2CC")   # yellow = enter a value
-DERIVED_FILL = PatternFill("solid", fgColor="E2EFDA")  # green  = calculated
+SEC_FILL = PatternFill("solid", fgColor="D9E2F3")
+IN_FILL = PatternFill("solid", fgColor="FFF2CC")
+DER_FILL = PatternFill("solid", fgColor="E2EFDA")
+ASSUM_FILL = PatternFill("solid", fgColor="FCE4D6")
 THIN = Side(style="thin", color="BFBFBF")
 BOX = Border(left=THIN, right=THIN, top=THIN, bottom=THIN)
-
-MONEY = '#,##0.0'
-COUNT = '#,##0'
-PCT = '0.0%'
+M2 = '#,##0.00'; M1 = '#,##0.0'; N0 = '#,##0'; PCT = '0.0%'
 
 
-def header_row(ws, row: int, labels: list[str]) -> None:
-    for col, label in enumerate(labels, start=1):
-        c = ws.cell(row=row, column=col, value=label)
-        c.font, c.fill, c.border = HEAD, HEAD_FILL, BOX
-        c.alignment = Alignment(vertical="center")
+def head(ws, row, labels):
+    for c, t in enumerate(labels, 1):
+        x = ws.cell(row=row, column=c, value=t); x.font, x.fill, x.border = HEAD, HEAD_FILL, BOX
+        x.alignment = Alignment(vertical="center", wrap_text=True)
 
 
-def section(ws, row: int, label: str, width: int = 5) -> None:
-    ws.cell(row=row, column=1, value=label).font = SECTION
-    for col in range(1, width + 1):
-        ws.cell(row=row, column=col).fill = SECTION_FILL
+def sec(ws, row, label, width=6):
+    ws.cell(row=row, column=1, value=label).font = SEC
+    for c in range(1, width + 1):
+        ws.cell(row=row, column=c).fill = SEC_FILL
 
 
-def param(ws, row, name, unit, *, formula=None, fmt=None, source="", note=""):
-    """One parameter line: name | value | unit | source | notes."""
+def par(ws, row, name, val, unit, src="", note="", fmt=None, fill=IN_FILL):
     ws.cell(row=row, column=1, value=name)
-    v = ws.cell(row=row, column=2, value=formula)
-    v.fill = DERIVED_FILL if formula else INPUT_FILL
-    v.border = BOX
-    if fmt:
-        v.number_format = fmt
+    v = ws.cell(row=row, column=2, value=val); v.fill, v.border = fill, BOX
+    if fmt: v.number_format = fmt
     ws.cell(row=row, column=3, value=unit)
-    ws.cell(row=row, column=4, value=source)
+    ws.cell(row=row, column=4, value=src)
     ws.cell(row=row, column=5, value=note).font = NOTE
 
 
-def widths(ws, spec: dict[int, int]) -> None:
-    for col, w in spec.items():
-        ws.column_dimensions[get_column_letter(col)].width = w
+def widths(ws, spec):
+    for c, w in spec.items(): ws.column_dimensions[get_column_letter(c)].width = w
 
 
-def blank(*refs: str) -> str:
-    """Excel condition true when any referenced input is still empty."""
-    return "OR(" + ",".join(f'{r}=""' for r in refs) + ")"
-
-
-def build_readme(ws) -> None:
+def build_readme(ws):
     ws.title = "README"
-    ws["A1"] = "Oaxaca–Puebla Rail — Breakeven Model"
-    ws["A1"].font = TITLE
+    ws["A1"] = "Vía Corta Oaxaca — Freight Reactivation Breakeven Model"; ws["A1"].font = TITLE
     lines = [
-        "",
-        "Status: Phase 0 scaffold. All inputs are blank. No breakeven figure has been established.",
-        "",
-        "PURPOSE",
-        "Answer one question: how many passengers a year does this line need to cover its costs,",
-        "and how does that compare with the number of people who currently travel the corridor at all?",
-        "That comparison is stop rule SR-2 in deliverables/feasibility_screen.md.",
-        "",
-        "HOW TO USE",
-        "1. Fill a yellow input cell on 'Assumptions' ONLY together with its Source column entry.",
-        "   The source is the manifest ID from deliverables/data_sources.md, e.g. inegi-2020-censo.",
-        "2. Green cells are calculated. Do not type over them.",
-        "3. Blank inputs propagate as blank, not as zero — the model stays silent until it is fed.",
-        "4. Read 'Breakeven'. Read 'Sensitivity' before believing 'Breakeven'.",
-        "",
-        "CONVENTIONS",
-        "Currency and base year are declared on 'Assumptions' and apply to every money figure.",
-        "Mixing nominal and real figures, or MXN and USD, is risk R-10 in the risk register.",
-        "",
-        "WHAT THIS MODEL DELIBERATELY DOES NOT DO",
-        "It does not forecast demand. Projected ridership is corridor travel × an assumed capture",
-        "rate that the analyst enters by hand; the model reports what that assumption implies,",
-        "it does not defend it. Capital recovery is shown separately from operating breakeven",
-        "because the funding model is unknown at screen stage — a line may be worth operating",
-        "while never recovering its capital, and the screen should be able to say so.",
-        "",
-        "It is a screening tool. Its output supports a decision to study further, nothing more.",
-        "",
-        "Regenerate with: python3 analysis/scripts/build_breakeven_model.py",
+        "", "Puebla (Sánchez) → Oaxaca City, línea E, ~216.5 route-km. Screening level.", "",
+        "WHAT THIS MODEL DOES",
+        "Back-solves the annual tonnage required to break even, then expresses it as loaded",
+        "truckloads/day each way so it is directly comparable to observed road traffic.",
+        "It does NOT forecast demand.", "",
+        "CELL COLOURS",
+        "  Yellow  = input, enter with a source",
+        "  Orange  = ASSUMPTION with no primary source behind it — the honest label, not a value",
+        "  Green   = calculated, do not overtype", "",
+        "THE TWO NUMBERS THAT CARRY THE ANSWER",
+        "1. Contribution margin per ton-km. Not public at commodity level; ARTF's Anuario was",
+        "   unreachable. It is therefore SWEPT across a range on 'Breakeven', not assumed.",
+        "2. Track condition. Unknown since 2003 and unresolvable from a desk, so capital is",
+        "   presented as light / heavy / substantial reconstruction. If those straddle the",
+        "   breakeven threshold, STOP RULE 3 fires and the answer is INDETERMINATE.", "",
+        "O&M CIRCULARITY",
+        "Track maintenance scales with gross passing tonnage, so O&M depends on the tonnage",
+        "being solved for. Both revenue and variable O&M are linear in tonnage, so the",
+        "circularity closes algebraically (see 'Breakeven' col A note) rather than by iteration.",
+        "If net contribution after track wear goes <= 0, NO tonnage breaks even and the sheet",
+        "reports that instead of a large finite number.", "",
+        "CURRENCY",
+        "One base year, stated on 'Inputs'. MXN throughout. Any USD conversion states its rate",
+        "and date. Mixing nominal figures across years is risk R-10.", "",
+        "Regenerate: python3 analysis/scripts/build_breakeven_model.py",
     ]
-    for i, text in enumerate(lines, start=2):
-        c = ws.cell(row=i, column=1, value=text)
-        if text.isupper() and text:
-            c.font = SECTION
+    for i, t in enumerate(lines, 2):
+        c = ws.cell(row=i, column=1, value=t)
+        if t and t.isupper(): c.font = SEC
     widths(ws, {1: 100})
 
 
-def build_assumptions(ws) -> None:
-    ws["A1"] = "Assumptions — all values pending Phase 2"
-    ws["A1"].font = TITLE
-    ws["A2"] = "Yellow = enter a value with its source. Green = calculated. Never fill a value without a source."
+def build_inputs(ws):
+    ws["A1"] = "Inputs — single editable block"; ws["A1"].font = TITLE
+    ws["A2"] = "Every downstream sheet reads from here. Orange = assumption with no primary source."
     ws["A2"].font = NOTE
-    header_row(ws, 3, ["Parameter", "Value", "Unit", "Source (manifest ID)", "Notes"])
+    head(ws, 3, ["Parameter", "Value", "Unit", "Source", "Notes"])
 
-    section(ws, 4, "CORRIDOR")
-    param(ws, 5, "Route length", "km", fmt=COUNT,
-          note="Plausible alignment, not straight-line distance")
+    sec(ws, 4, "CORRIDOR")
+    par(ws, 5, "Route length", 216.5, "km", "Prompt.md (to verify)",
+        "km E-150+000 to E-367+000. Independent verification outstanding", M1)
 
-    section(ws, 6, "CAPITAL")
-    param(ws, 7, "Capital cost per route-km", "MXN million / km", fmt=MONEY,
-          note="[ANALOGUE] — only from a project of comparable terrain class")
-    param(ws, 8, "Total capital cost", "MXN million",
-          formula=f'=IF({blank("B5","B7")},"",B5*B7)', fmt=MONEY)
-    param(ws, 9, "Discount rate", "% / yr", fmt=PCT,
-          note="Social discount rate used for public projects")
-    param(ws, 10, "Asset life", "years", fmt=COUNT)
-    param(ws, 11, "Annualised capital charge", "MXN million / yr",
-          formula=f'=IF({blank("B8","B9","B10")},"",-PMT(B9,B10,B8))', fmt=MONEY,
-          note="Level annual charge recovering capital over asset life")
+    sec(ws, 6, "CAPITAL — cost per route-km by track-condition scenario")
+    par(ws, 7, "Light rehabilitation", None, "MXN million / km", "",
+        "UNESCAP guidance cited in brief: < USD 500,000/route-km. Convert at B26 and cite", M2)
+    par(ws, 8, "Heavy rehabilitation", None, "MXN million / km", "", "", M2)
+    par(ws, 9, "Substantial reconstruction", None, "MXN million / km", "", "", M2)
+    ws.cell(row=10, column=1, value="  Mexican precedent (context, NOT a base case)")
+    ws.cell(row=10, column=2, value=None).fill = ASSUM_FILL
+    ws.cell(row=10, column=2).border = BOX
+    ws.cell(row=10, column=4, value="[PRESS — UNVERIFIED]")
+    ws.cell(row=10, column=5, value=(
+        "Press reports ~18,000 MXN million on Línea Z rehabilitation (~300 km) => order "
+        "~60 MXN million/km, roughly an order of magnitude above the UNESCAP figure. ASF "
+        "primary unreachable (JS app), DOF egress-blocked. Must NOT carry a conclusion.")).font = NOTE
 
-    section(ws, 12, "OPERATING")
-    param(ws, 13, "Daily services each way", "trains / day", fmt=COUNT)
-    param(ws, 14, "Operating days per year", "days", fmt=COUNT)
-    param(ws, 15, "Annual train-km", "train-km / yr",
-          formula=f'=IF({blank("B5","B13","B14")},"",B13*2*B14*B5)', fmt=COUNT,
-          note="Services each way × 2 × operating days × route length")
-    param(ws, 16, "Operating cost per train-km", "MXN / train-km", fmt=MONEY,
-          note="All-in: crew, energy, maintenance, track access, overhead")
-    param(ws, 17, "Annual operating cost", "MXN million / yr",
-          formula=f'=IF({blank("B15","B16")},"",B15*B16/1000000)', fmt=MONEY)
+    sec(ws, 11, "CAPITAL — structures carried separately, per the brief")
+    par(ws, 12, "Bridges / drainage / slope stabilisation — low", None, "MXN million", "",
+        "Dominant uncertainty. Carried as its own line with its own range, NOT buried in a "
+        "percentage contingency. No public structure inventory is expected to exist", M1)
+    par(ws, 13, "Bridges / drainage / slope stabilisation — high", None, "MXN million", "", "", M1)
 
-    section(ws, 18, "REVENUE")
-    param(ws, 19, "Average fare per trip", "MXN", fmt=MONEY,
-          note="Blended across classes and distances actually travelled")
-    param(ws, 20, "Non-fare revenue per trip", "MXN", fmt=MONEY,
-          note="Concessions, advertising, parking; 0 is a defensible screen value")
-    param(ws, 21, "Average revenue per trip", "MXN",
-          formula=f'=IF({blank("B19","B20")},"",B19+B20)', fmt=MONEY)
+    sec(ws, 14, "FINANCE")
+    par(ws, 15, "Asset life", 30, "years", "Prompt.md", "", N0)
+    par(ws, 16, "Cost of capital — case 1", 0.05, "% / yr", "Prompt.md", "", PCT)
+    par(ws, 17, "Cost of capital — case 2", 0.06, "% / yr", "Prompt.md", "", PCT)
+    par(ws, 18, "Cost of capital — case 3", 0.08, "% / yr", "Prompt.md", "", PCT)
 
-    section(ws, 22, "DEMAND")
-    param(ws, 23, "Corridor travel, all modes", "trips / yr", fmt=COUNT,
-          note="Observed bus + air + private vehicle. NOT derived from population — risk R-03")
-    param(ws, 24, "Assumed rail mode capture", "% of corridor travel", fmt=PCT,
-          note="The assumption most likely to be wrong — risk R-04. State it, test it on 'Sensitivity'")
-    param(ws, 25, "Projected annual ridership", "trips / yr",
-          formula=f'=IF({blank("B23","B24")},"",B23*B24)', fmt=COUNT)
+    sec(ws, 19, "OPERATING")
+    par(ws, 20, "Fixed O&M (tonnage-independent)", None, "MXN million / yr", "",
+        "Signalling, admin, inspection, right-of-way security", M1)
+    par(ws, 21, "Variable O&M per gross ton-km", None, "MXN / gross ton-km", "",
+        "Track wear. This is what makes O&M depend on the tonnage being solved for", '0.0000')
+    par(ws, 22, "Tare factor (gross / net tonnage)", None, "ratio", "",
+        "Wagon tare + locomotive. Gross ton-km = net tons x (1 + tare) x km", M2)
 
-    section(ws, 26, "CONVENTIONS")
-    param(ws, 27, "Base year", "yyyy", note="All money figures are real terms in this year")
-    param(ws, 28, "Currency", "", note="MXN throughout; convert at a stated rate and record it")
-    param(ws, 29, "FX rate used, if any", "MXN / USD", fmt=MONEY)
+    sec(ws, 23, "REVENUE")
+    par(ws, 24, "Contribution margin per net ton-km", None, "MXN / net ton-km", "[NOT OBTAINED]",
+        "ARTF Anuario unreachable (bot challenge); commodity-level margin is commercially "
+        "confidential. SWEPT on 'Breakeven' rather than assumed here", '0.0000', ASSUM_FILL)
 
-    widths(ws, {1: 34, 2: 16, 3: 22, 4: 26, 5: 74})
+    sec(ws, 25, "CONVENTIONS AND CONVERSION")
+    par(ws, 26, "MXN / USD rate", None, "MXN per USD", "",
+        "State the rate AND its date. Required before any USD benchmark is used", M2)
+    par(ws, 27, "FX rate date", None, "date", "", "", None)
+    par(ws, 28, "Deflation base year (INEGI INPC)", None, "yyyy", "",
+        "All money figures real in this year. Never mix nominal across years", N0)
+
+    sec(ws, 29, "ROAD COMPARISON")
+    par(ws, 30, "Payload per loaded articulated truck", None, "tonnes", "",
+        "Bridge from vehicle counts to tonnage. This is an ASSUMPTION — show sensitivity", M1, ASSUM_FILL)
+    par(ws, 31, "Empty-running share", None, "fraction", "Prompt.md: ~30–50%",
+        "Raw truck counts are NOT loaded tonnage", PCT, ASSUM_FILL)
+    par(ws, 32, "Observed articulated veh/day at corridor terminus", 500, "veh/day, both dirs",
+        "sct-2025-datosviales-oaxaca", "SR-2 bound: endpoint flow N of Oaxaca City. See working/sr2-evaluation.md", N0)
+    widths(ws, {1: 44, 2: 16, 3: 22, 4: 26, 5: 78})
     ws.freeze_panes = "A4"
 
 
-def build_breakeven(ws) -> None:
-    ws["A1"] = "Breakeven"
-    ws["A1"].font = TITLE
-    ws["A2"] = "Blank output means an input it depends on has not been established. That is the correct display."
+def build_capital(ws):
+    ws["A1"] = "Capital cost band"; ws["A1"].font = TITLE
+    ws["A2"] = ("Track condition is unknown since 2003 and cannot be resolved from a desk, so "
+                "capital is bounded by scenario rather than assumed to a base case.")
     ws["A2"].font = NOTE
-    header_row(ws, 3, ["Output", "Value", "Unit", "Basis", "Notes"])
-
-    a = "Assumptions!"
-    section(ws, 4, "ANNUAL COST")
-    param(ws, 5, "Annual operating cost", "MXN million / yr",
-          formula=f"={a}B17", fmt=MONEY, source="Assumptions B17")
-    param(ws, 6, "Annualised capital charge", "MXN million / yr",
-          formula=f"={a}B11", fmt=MONEY, source="Assumptions B11")
-    param(ws, 7, "Total annual cost", "MXN million / yr",
-          formula=f'=IF({blank("B5","B6")},"",B5+B6)', fmt=MONEY)
-
-    section(ws, 8, "BREAKEVEN RIDERSHIP")
-    param(ws, 9, "Average revenue per trip", "MXN",
-          formula=f"={a}B21", fmt=MONEY, source="Assumptions B21")
-    param(ws, 10, "Breakeven — operating cost only", "trips / yr",
-          formula=f'=IF(OR(B5="",B9="",B9=0),"",B5*1000000/B9)', fmt=COUNT,
-          note="The screening figure: can the line cover the cost of running it?")
-    param(ws, 11, "Breakeven — operating + capital", "trips / yr",
-          formula=f'=IF(OR(B7="",B9="",B9=0),"",B7*1000000/B9)', fmt=COUNT,
-          note="Shown separately: funding model is unknown at screen stage")
-
-    section(ws, 12, "AGAINST ACTUAL CORRIDOR TRAVEL")
-    param(ws, 13, "Corridor travel, all modes", "trips / yr",
-          formula=f"={a}B23", fmt=COUNT, source="Assumptions B23")
-    param(ws, 14, "Operating breakeven as share of all corridor travel", "%",
-          formula=f'=IF(OR(B10="",B13="",B13=0),"",B10/B13)', fmt=PCT,
-          note="Above 100% means SR-2 triggers: unbuildable demand case")
-    param(ws, 15, "Projected annual ridership", "trips / yr",
-          formula=f"={a}B25", fmt=COUNT, source="Assumptions B25")
-    param(ws, 16, "Margin over operating breakeven", "trips / yr",
-          formula=f'=IF(OR(B15="",B10=""),"",B15-B10)', fmt=COUNT,
-          note="Negative means the assumed capture rate does not cover operating cost")
-
-    section(ws, 17, "STOP RULE SR-2")
-    ws.cell(row=18, column=1, value="Demand floor test")
-    t = ws.cell(
-        row=18, column=2,
-        value='=IF(OR(B10="",B13=""),"pending inputs",'
-              'IF(B10>B13,"SR-2 TRIGGERED — breakeven exceeds all corridor travel at 100% capture",'
-              '"SR-2 not triggered"))',
-    )
-    t.fill, t.border, t.font = DERIVED_FILL, BOX, SECTION
-    ws.cell(row=18, column=5,
-            value="Record the result in deliverables/feasibility_screen.md §2").font = NOTE
-
-    widths(ws, {1: 46, 2: 20, 3: 20, 4: 20, 5: 72})
-    ws.freeze_panes = "A4"
+    head(ws, 4, ["Scenario", "Cost per km (MXN m)", "Linework (MXN m)",
+                 "Structures low (MXN m)", "Structures high (MXN m)",
+                 "TOTAL low (MXN m)", "TOTAL high (MXN m)"])
+    for i, (label, src) in enumerate(
+            [("Light rehabilitation", 7), ("Heavy rehabilitation", 8),
+             ("Substantial reconstruction", 9)], start=5):
+        ws.cell(row=i, column=1, value=label)
+        ws.cell(row=i, column=2, value=f"=Inputs!B{src}").number_format = M2
+        ws.cell(row=i, column=3,
+                value=f'=IF(OR(B{i}="",Inputs!$B$5=""),"",B{i}*Inputs!$B$5)').number_format = M1
+        ws.cell(row=i, column=4, value='=Inputs!$B$12').number_format = M1
+        ws.cell(row=i, column=5, value='=Inputs!$B$13').number_format = M1
+        ws.cell(row=i, column=6, value=f'=IF(OR(C{i}="",D{i}=""),"",C{i}+D{i})').number_format = M1
+        ws.cell(row=i, column=7, value=f'=IF(OR(C{i}="",E{i}=""),"",C{i}+E{i})').number_format = M1
+        for c in range(2, 8):
+            ws.cell(row=i, column=c).fill = DER_FILL if c > 2 else IN_FILL
+            ws.cell(row=i, column=c).border = BOX
+    ws["A9"] = ("Structures (bridges, drainage, slope stabilisation) are shown as their own "
+                "range, not folded into a contingency percentage — they are the dominant "
+                "uncertainty on this alignment and no public structure inventory is expected.")
+    ws["A9"].font = NOTE
+    ws["A10"] = ("The Cañada de Cuicatlán sits where Sierra Madre Oriental and Sierra Madre del "
+                 "Sur folding converge; documented rainy-season suspension implies scour and "
+                 "slope exposure at water crossings.")
+    ws["A10"].font = NOTE
+    widths(ws, {1: 30, 2: 20, 3: 18, 4: 20, 5: 20, 6: 18, 7: 18})
 
 
-def build_sensitivity(ws) -> None:
-    ws["A1"] = "Sensitivity — fare"
-    ws["A1"].font = TITLE
-    ws["A2"] = ("Breakeven is close to linear in fare, so this grid mostly guards against a "
-                "conclusion resting on one optimistic fare assumption.")
+def build_breakeven(ws):
+    ws["A1"] = "Breakeven tonnage back-solve"; ws["A1"].font = TITLE
+    ws["A2"] = ("T = (AnnualCapital + FixedOM) / ( L × ( margin − varOM × (1+tare) ) ).  "
+                "Closed form: revenue and variable O&M are both linear in tonnage, so the O&M "
+                "circularity resolves algebraically rather than by iteration.")
     ws["A2"].font = NOTE
-    ws["A3"] = ("Read row 8 first: if breakeven exceeds 100% of corridor travel anywhere in the "
-                "plausible fare range, the demand case is fragile.")
-    ws["A3"].font = NOTE
+    ws["A3"] = ("If margin − varOM×(1+tare) ≤ 0 the line loses money on every incremental tonne "
+                "and NO tonnage breaks even. The sheet says so rather than returning a number.")
+    ws["A3"].font = WARN
 
-    steps = [-0.20, -0.10, 0.0, 0.10, 0.20]
-    header_row(ws, 5, ["Fare scenario"] + [f"{s:+.0%}" if s else "base" for s in steps])
+    ws["A5"] = "Net contribution per net ton-km after track wear"; ws["A5"].font = SEC
+    ws["B5"] = ('=IF(OR(Inputs!B24="",Inputs!B21="",Inputs!B22=""),"",'
+                'Inputs!B24-Inputs!B21*(1+Inputs!B22))')
+    ws["B5"].number_format = '0.0000'; ws["B5"].fill = DER_FILL; ws["B5"].border = BOX
+    ws["C5"] = "MXN / net ton-km"
+    ws["D5"] = ('=IF(B5="","pending margin + O&M inputs",'
+                'IF(B5<=0,"NO TONNAGE BREAKS EVEN — track wear exceeds margin","positive contribution"))')
+    ws["D5"].font = SEC
 
+    head(ws, 7, ["Capital scenario", "Capital (MXN m)", "Cost of capital",
+                 "Annualised capital (MXN m/yr)", "Fixed O&M (MXN m/yr)",
+                 "BREAKEVEN tonnage (net t/yr)", "Loaded truckloads/day each way"])
+    row = 8
+    for cap_row, label in ((6, "Light rehab (low structures)"),
+                           (7, "Light rehab (high structures)"),
+                           (8, "Heavy rehab (low structures)"),
+                           (9, "Heavy rehab (high structures)"),
+                           (10, "Substantial recon (low struct.)"),
+                           (11, "Substantial recon (high struct.)")):
+        cap_ref = {6: "Capital!F5", 7: "Capital!G5", 8: "Capital!F6",
+                   9: "Capital!G6", 10: "Capital!F7", 11: "Capital!G7"}[cap_row]
+        for disc in (16, 17, 18):
+            ws.cell(row=row, column=1, value=label)
+            ws.cell(row=row, column=2, value=f"={cap_ref}").number_format = M1
+            ws.cell(row=row, column=3, value=f"=Inputs!$B${disc}").number_format = PCT
+            ws.cell(row=row, column=4, value=(
+                f'=IF(OR(B{row}="",C{row}="",Inputs!$B$15=""),"",'
+                f'-PMT(C{row},Inputs!$B$15,B{row}))')).number_format = M1
+            ws.cell(row=row, column=5, value='=Inputs!$B$20').number_format = M1
+            ws.cell(row=row, column=6, value=(
+                f'=IF(OR(D{row}="",E{row}="",$B$5="",$B$5<=0,Inputs!$B$5=""),"",'
+                f'(D{row}+E{row})*1000000/(Inputs!$B$5*$B$5))')).number_format = N0
+            ws.cell(row=row, column=7, value=(
+                f'=IF(OR(F{row}="",Inputs!$B$30="",Inputs!$B$30=0),"",'
+                f'F{row}/(Inputs!$B$30*365*2))')).number_format = N0
+            for c in range(2, 8):
+                ws.cell(row=row, column=c).fill = DER_FILL; ws.cell(row=row, column=c).border = BOX
+            row += 1
+
+    r = row + 1
+    ws.cell(row=r, column=1, value="STOP RULE 3 — does the answer flip across track-condition scenarios?").font = SEC
+    ws.cell(row=r + 1, column=1, value=(
+        "Compare the breakeven range above against divertible tonnage on 'Compare'. If the "
+        "project clears under light rehabilitation and fails under substantial reconstruction, "
+        "the correct output is INDETERMINATE pending field reconnaissance — not a base case "
+        "with a verdict attached. Report the scenario at which it flips: that is the single "
+        "most decision-relevant number in the study.")).font = NOTE
+    widths(ws, {1: 32, 2: 18, 3: 15, 4: 22, 5: 18, 6: 24, 7: 26})
+    ws.freeze_panes = "A8"
+
+
+def build_commodity(ws):
+    ws["A1"] = "Commodity segregation and mode-diversion assumptions"; ws["A1"].font = TITLE
+    ws["A2"] = ("The decisive analytical step. Diversion rates are ASSUMPTIONS and the answer is "
+                "highly sensitive to them — each needs its own cited source before use.")
+    ws["A2"].font = NOTE
+    head(ws, 4, ["Commodity class", "Rail-divertible?", "Corridor tonnage (t/yr)",
+                 "Diversion rate", "Divertible tonnage (t/yr)", "Source for diversion rate"])
+    classes = [("Cement", "yes"), ("Aggregate", "yes"), ("Fertilizer", "yes"), ("Grain", "yes"),
+               ("Fuel", "yes"), ("Steel", "yes"), ("Containerised manufactured", "yes"),
+               ("Refrigerated", "low"), ("Time-sensitive", "low"),
+               ("High-value low-density agricultural", "low")]
+    for i, (name, div) in enumerate(classes, start=5):
+        ws.cell(row=i, column=1, value=name)
+        ws.cell(row=i, column=2, value=div)
+        for c in (3, 4):
+            ws.cell(row=i, column=c).fill = IN_FILL; ws.cell(row=i, column=c).border = BOX
+        ws.cell(row=i, column=4).number_format = PCT
+        e = ws.cell(row=i, column=5, value=f'=IF(OR(C{i}="",D{i}=""),"",C{i}*D{i})')
+        e.number_format = N0; e.fill = DER_FILL; e.border = BOX
+    tot = len(classes) + 5
+    ws.cell(row=tot, column=1, value="TOTAL divertible").font = SEC
+    t = ws.cell(row=tot, column=5, value=f"=IF(COUNT(E5:E{tot-1})=0,\"\",SUM(E5:E{tot-1}))")
+    t.number_format = N0; t.fill = DER_FILL; t.border = BOX; t.font = SEC
+    ws.cell(row=tot + 2, column=1, value=(
+        "Low-diversion classes (mezcal, coffee, avocado, mango, figs) are a large share of "
+        "Oaxaca's tradeable output and are exactly the goods least likely to move by rail. "
+        "Segregating them is what prevents a headline tonnage figure from overstating the case.")).font = NOTE
+    ws.cell(row=tot + 3, column=1, value=(
+        "Aforo data classifies by axle configuration only — there is NO commodity field. "
+        "Commodity mix must come from production and trade data (SIAP, INEGI Censos "
+        "Económicos), not from truck counts.")).font = NOTE
+    widths(ws, {1: 38, 2: 16, 3: 22, 4: 14, 5: 24, 6: 34})
+
+
+def build_compare(ws):
+    ws["A1"] = "Compare — divertible tonnage against breakeven"; ws["A1"].font = TITLE
+    ws["A2"] = "Filled once both sides exist. Ranges, not point estimates."; ws["A2"].font = NOTE
+    head(ws, 4, ["Quantity", "Value", "Unit", "Source"])
     rows = [
-        (6, "Average fare per trip (MXN)",
-         lambda col, s: f'=IF(Assumptions!$B$19="","",Assumptions!$B$19*{1 + s})', MONEY),
-        (7, "Revenue per trip incl. non-fare (MXN)",
-         lambda col, s: f'=IF(OR({col}6="",Assumptions!$B$20=""),"",{col}6+Assumptions!$B$20)', MONEY),
-        (8, "Breakeven ridership, operating (trips/yr)",
-         lambda col, s: f'=IF(OR({col}7="",{col}7=0,Breakeven!$B$5=""),"",Breakeven!$B$5*1000000/{col}7)', COUNT),
-        (9, "As share of all corridor travel",
-         lambda col, s: f'=IF(OR({col}8="",Assumptions!$B$23="",Assumptions!$B$23=0),"",'
-                        f'{col}8/Assumptions!$B$23)', PCT),
-        (10, "Margin vs projected ridership (trips/yr)",
-         lambda col, s: f'=IF(OR({col}8="",Assumptions!$B$25=""),"",Assumptions!$B$25-{col}8)', COUNT),
+        ("Divertible tonnage (bottom-up, commodity)", "=Commodity!E15", "t / yr", "Commodity sheet"),
+        ("Breakeven tonnage — most favourable case", '=IF(COUNT(Breakeven!F8:F25)=0,"",MIN(Breakeven!F8:F25))', "t / yr", "Breakeven sheet"),
+        ("Breakeven tonnage — least favourable case", '=IF(COUNT(Breakeven!F8:F25)=0,"",MAX(Breakeven!F8:F25))', "t / yr", "Breakeven sheet"),
+        ("Ratio: divertible / breakeven (favourable)", '=IF(OR(B5="",B6="",B6=0),"",B5/B6)', "x", ""),
+        ("Ratio: divertible / breakeven (unfavourable)", '=IF(OR(B5="",B7="",B7=0),"",B5/B7)', "x", ""),
     ]
-    for row, label, make, fmt in rows:
-        ws.cell(row=row, column=1, value=label)
-        for i, s in enumerate(steps):
-            col = get_column_letter(2 + i)
-            c = ws.cell(row=row, column=2 + i, value=make(col, s))
-            c.fill, c.border, c.number_format = DERIVED_FILL, BOX, fmt
-
-    ws["A12"] = "TO ADD IN PHASE 2"
-    ws["A12"].font = SECTION
-    for i, text in enumerate(
-        [
-            "Capture-rate sensitivity — the dominant uncertainty (risk R-04). Vary Assumptions!B24 "
-            "across a range whose low end is a rail service nobody switches to.",
-            "Capital cost per km sensitivity — analogue transfer error is the second dominant "
-            "uncertainty (risk R-02), and matters most for the operating+capital breakeven.",
-            "Both are deferred until real inputs exist: a sensitivity grid over invented base "
-            "values reads as analysis while carrying no information.",
-        ],
-        start=13,
-    ):
-        ws.cell(row=i, column=1, value="• " + text).font = NOTE
-
-    widths(ws, {1: 42, 2: 16, 3: 16, 4: 16, 5: 16, 6: 16})
+    for i, (n, f, u, s) in enumerate(rows, start=5):
+        ws.cell(row=i, column=1, value=n)
+        v = ws.cell(row=i, column=2, value=f); v.fill, v.border = DER_FILL, BOX
+        v.number_format = M2 if "Ratio" in n else N0
+        ws.cell(row=i, column=3, value=u); ws.cell(row=i, column=4, value=s)
+    ws.cell(row=11, column=1, value="VERDICT GATE").font = SEC
+    ws.cell(row=12, column=1, value="Stop Rule 3 test")
+    g = ws.cell(row=12, column=2, value=(
+        '=IF(OR(B8="",B9=""),"pending inputs",'
+        'IF(AND(B8>1,B9<1),"INDETERMINATE — scenarios straddle breakeven; field reconnaissance required",'
+        'IF(B8<1,"FAILS under every capital scenario",'
+        'IF(B9>1,"CLEARS under every capital scenario","review"))))'))
+    g.font = SEC; g.fill = DER_FILL; g.border = BOX
+    ws.cell(row=14, column=1, value=(
+        "A straddle is a real result, not a failure to decide. Per the brief, do not select a "
+        "base case and present a conclusion — report the scenario at which the answer flips.")).font = NOTE
+    widths(ws, {1: 46, 2: 58, 3: 14, 4: 22})
 
 
-def main() -> None:
+def main():
     wb = Workbook()
     build_readme(wb.active)
-    build_assumptions(wb.create_sheet("Assumptions"))
+    build_inputs(wb.create_sheet("Inputs"))
+    build_capital(wb.create_sheet("Capital"))
     build_breakeven(wb.create_sheet("Breakeven"))
-    build_sensitivity(wb.create_sheet("Sensitivity"))
-    OUT.parent.mkdir(parents=True, exist_ok=True)
+    build_commodity(wb.create_sheet("Commodity"))
+    build_compare(wb.create_sheet("Compare"))
     wb.save(OUT)
-    print(f"wrote {OUT.relative_to(ROOT)}  ({OUT.stat().st_size // 1024} KB)")
+    print(f"wrote {OUT.relative_to(ROOT)} ({OUT.stat().st_size//1024} KB)")
 
 
 if __name__ == "__main__":

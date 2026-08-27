@@ -1,43 +1,53 @@
-# Risk Register
+# Risk Register — Vía Corta Oaxaca freight reactivation
 
-Risks to the **screen's conclusion** — the things that would make this
-assessment wrong. Not construction or operating risks of the project itself;
-those belong to a real study, if one is ever commissioned.
+Risks to the **screen's conclusion** and to the project's deliverability.
+Screening level: likelihood and impact are judged on retrieved evidence, and
+marked `unassessed` where there is none rather than guessed.
 
-**Status: not started.** Entries below are opened at Phase 0 with the risks
-inherent to desk research on this corridor. Likelihood and impact are
-unassessed until sources exist.
+**Impact** = effect on a go/no-go if the risk is real. `fatal` would flip it;
+`major` moves a headline figure by more than an order of magnitude; `moderate`
+moves it materially; `minor` is noted for completeness.
 
-## Scoring
+## A. Environmental and protected-area
 
-**Likelihood** — `low` / `medium` / `high`, judged on evidence, not vibes.
-**Impact** — effect on the verdict if the risk is real:
+| ID | Risk | Likelihood | Impact | What would retire it |
+|---|---|---|---|---|
+| R-01 | ROW passes through **core zones** of the Tehuacán-Cuicatlán Biosphere Reserve / UNESCO property 1534, not merely buffer. Core-zone transit would escalate MIA to *modalidad regional*, constrain grading, drainage and alignment modification, and may foreclose segments outright | unassessed — `whc.unesco.org` returned 403 | **fatal** | UNESCO nomination boundary description for property 1534 + CONANP *programa de manejo* zoning, overlaid on the alignment |
+| R-02 | Rainy-season scour and slope instability where the alignment follows the Río Salado / Cañada. The 2003 record already describes service suspension in the rainy season | medium — documented in the brief's history, unverified against DOF | major | Geotechnical reconnaissance; historical washout records from FIT/ARTF |
+| R-03 | Structures (bridges, drainage) are the dominant capital uncertainty and **no public inventory is expected to exist** | high | major | Field structure survey. Carried in the model as its own line with its own range, never as a contingency percentage |
 
-| Impact | Meaning |
-|---|---|
-| `fatal` | Would flip the verdict |
-| `major` | Would change a headline figure by more than an order of magnitude |
-| `moderate` | Would change a headline figure materially but not the verdict |
-| `minor` | Noted for completeness |
+## B. Right-of-way, land and consent
 
-## Register
+| ID | Risk | Likelihood | Impact | What would retire it |
+|---|---|---|---|---|
+| R-04 | ROW encroachment and squatting after 20+ years dormant | medium-high | major | Satellite/street imagery for ROW clearance (indicative only); RAN and registry inquiry |
+| R-05 | Alignment crosses **bienes comunales / ejido** land where consent runs through **Sistemas Normativos Indígenas** community assembly. This is a real gate, not a formality, and cannot be discharged by compensation alone | high | **fatal** | Municipality and agrarian-nucleus list from cartography, then formal RAN inquiry. Deliverable at screen stage is a list of required inquiries, not a conclusion |
+| R-06 | Organised community opposition to rail megaprojects in Oaxaca (UCIZONI and others have opposed publicly) | medium-high | major | Documented consultation record; cannot be assessed from desk sources |
+| R-07 | Land tenure records are not web-accessible (RAN, public registry require formal or in-person query) | high | moderate | Formal request. Constrains what any desk screen can conclude |
 
-| ID | Risk | Category | Likelihood | Impact | Mitigation | Status |
-|----|------|----------|-----------|--------|------------|--------|
-| R-01 | Terrain data resolution too coarse to establish a true ruling grade; a corridor screened as viable has an unbuildable segment | Data | _tbd_ | fatal | Cross-check DEM-derived profile against any published survey; state the DEM resolution alongside every grade figure | open |
-| R-02 | Capital cost carried from analogue projects in materially different terrain, understating mountain construction | Method | _tbd_ | major | Only use analogues with a stated and comparable grade/tunnel profile; tag every carried figure `[ANALOGUE]` | open |
-| R-03 | Demand estimated from population rather than observed O–D travel, overstating a corridor people may simply not travel | Method | _tbd_ | fatal | Anchor to observed bus/air/toll counts; treat population as a ceiling, never a forecast | open |
-| R-04 | Mode-capture assumption unsupported; rail assumed to take share from road without journey-time advantage | Method | _tbd_ | fatal | State capture assumption explicitly in §4; test breakeven against a zero-growth, low-capture case | open |
-| R-05 | Existing freight concession over part of the corridor forecloses or prices out passenger use | Legal | _tbd_ | fatal | Check ARTF concession registry and DOF grants before any alignment conclusion | open |
-| R-06 | Federal sources unretrievable — reorganised sites, dead links across administrations | Data | _tbd_ | major | Wayback recovery, DOF search by date, INAI request; mark `unavailable` rather than substituting press reporting | open |
-| R-07 | Reliance on press reporting of announced projects, which routinely misstates cost, scope and status | Source quality | _tbd_ | major | `press` sources may not solely support a conclusion (see data_sources.md §1) | open |
-| R-08 | Political announcement mistaken for a funded programme; budget line assumed to exist | Source quality | _tbd_ | major | Require a PEF line item or equivalent before treating funding as real | open |
-| R-09 | Protected areas or indigenous community land in the corridor not identified at screen stage | Legal | _tbd_ | major | Overlay protected-area and agrarian tenure data on candidate alignments | open |
-| R-10 | Currency, base year and units inconsistently handled across sources (MXN/USD, nominal/real) | Method | _tbd_ | moderate | Fix a base year and currency in the model; record both for every source figure | open |
-| R-11 | Screen anchors on the first plausible alignment and never tests alternatives | Method | _tbd_ | moderate | Carry at least two candidate corridors until terrain data eliminates one | open |
-| R-12 | Confirmation pressure toward a GO verdict because a GO is a more interesting deliverable | Method | _tbd_ | fatal | Stop rules are evaluated in order and in writing before the verdict is drafted | open |
+## C. Institutional and delivery
+
+| ID | Risk | Likelihood | Impact | What would retire it |
+|---|---|---|---|---|
+| R-08 | Assignee delivery capability. ASF findings on the 2019 Línea Z rehabilitation include specification substitution (115 lb/yd rail placed where 136 lb/yd was specified) — press-reported, ASF primary not retrieved | medium | major | ASF audit reports on Línea Z, primary |
+| R-09 | Safety record in the assignee's operating zone: Asunción Ixtaltepec derailment of 28 Dec 2025 (14 dead, 98 injured), a further freight derailment in the same zone in July 2026, and the FGR determination | unassessed — press only | major | FGR determination; ARTF incident record |
+| R-10 | Cost escalation against budget on comparable Mexican rail rehabilitation. Press reports ~18,000 MXN million on Línea Z and a doubling of Transístmico cost | medium-high | major | SICT/ARTF tender awards; FIT contract values; ASF audits |
+| R-11 | 2003 "precarious condition" is the most recent condition statement on record, now 20+ years old, and degradation of unmaintained track is **nonlinear** | high | **fatal** | Field reconnaissance. This is the load-bearing unknown and the basis of SR-3 |
+
+## D. Method and evidence
+
+| ID | Risk | Likelihood | Impact | What would retire it |
+|---|---|---|---|---|
+| R-12 | **Aforo gives vehicles, not tonnage or commodity.** Counting stations classify by axle configuration only; there is no commodity field. Two separate assumption bridges (payload-by-class, commodity mix) sit between counts and any tonnage figure | certain — structural | **fatal** if unlabelled | Both bridges stated as assumptions with sensitivity; commodity mix from SIAP / INEGI, never from truck counts |
+| R-13 | **Aforo is link volume, not origin-destination.** A truck on 135D may be bound for the Isthmus, Chiapas or Guatemala | certain — structural | **fatal** if unlabelled | Addressed by SR-2 gradient; still needs the bottom-up cross-check |
+| R-14 | **Corridor misidentification.** MEX-135D and the railway share endpoints only: 135D runs the Mixteca, the rail runs the Cañada. Using 135D drop-off traffic as rail-addressable overstates demand by ~2.5x | **realised and corrected** — see `working/sr2-evaluation.md` | major | Corrected: bound taken at endpoint flow, not differential |
+| R-15 | Rail margin data partly confidential; ARTF *Anuario* unreachable. Substituting US Class I margins would import a different cost structure silently | high | major | ARTF Anuario, or FIT/CIIT tariff filing. Currently swept, not assumed |
+| R-16 | Primary legal record unverifiable: DOF egress-blocked, Wayback capture paths egress-blocked. Corridor's concession and assignment history rests on the brief's own account | **realised** | major | DOF access, or INAI transparency request |
+| R-17 | Extraction corruption in tabular PDFs. Reading-order text interleaves the DGST columns | **realised and mitigated** | major | Bounding-box reconstruction + three arithmetic identities per record; 99.8% validation pass, failures excluded not patched |
+| R-18 | Currency, inflation and base-year mixing across decades of Mexican cost figures | medium | moderate | Single base year via INEGI INPC; MXN/USD rate and its date recorded per conversion |
+| R-19 | Confirmation pressure toward issuing *a* verdict because a verdict is the expected deliverable | medium | **fatal** | Stop rules evaluated in order and in writing before any verdict is drafted. Currently: no verdict issued |
 
 ## Review
 
-The register is reviewed at every phase boundary. New risks are appended, never
-renumbered. A risk is closed only with a note stating what evidence closed it.
+Reviewed at every phase boundary. New risks appended, never renumbered. A risk
+is closed only with a note stating what evidence closed it.
