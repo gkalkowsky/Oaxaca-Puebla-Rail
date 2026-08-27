@@ -1,0 +1,80 @@
+# ---------------------------------------------------------------------------
+# Oaxaca-Puebla-Rail .gitignore
+#
+# Policy: raw source documents are NOT committed. Their URL, publisher and
+# retrieval date are recorded in deliverables/data_sources.md so any source can
+# be re-fetched. Extracted markdown/JSON IS committed - it is the traceable
+# evidence chain that deliverables cite.
+# ---------------------------------------------------------------------------
+
+# --- Raw sources (reproducible from data_sources.md, not committed) --------
+sources/raw/**
+!sources/raw/.gitkeep
+
+# --- Model weights / ML caches ---------------------------------------------
+*.safetensors
+*.ckpt
+*.pt
+*.pth
+*.bin
+*.onnx
+*.gguf
+.cache/huggingface/
+huggingface/
+hf_cache/
+.huggingface/
+transformers_cache/
+torch_hub/
+models/weights/
+*.mlpackage/
+
+# --- Virtualenvs / Python --------------------------------------------------
+.venv/
+venv/
+env/
+ENV/
+.conda/
+conda-env/
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+pip-wheel-metadata/
+*.egg-info/
+.eggs/
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# --- Large binaries (hard rule: nothing over 50MB is committed) ------------
+# Enforced by analysis/scripts/check_repo_hygiene.sh, which fails on any
+# staged blob >50MB. Common offenders listed explicitly:
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.7z
+*.gpkg
+*.mbtiles
+*.laz
+*.las
+*.tif
+*.tiff
+*.img
+*.sqlite
+*.duckdb
+
+# --- OS / editor noise -----------------------------------------------------
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.idea/
+.vscode/
+*.code-workspace
+
+# --- Office lock files (breakeven_model.xlsx itself IS committed) ----------
+~$*.xlsx
+~$*.docx
+.~lock.*
