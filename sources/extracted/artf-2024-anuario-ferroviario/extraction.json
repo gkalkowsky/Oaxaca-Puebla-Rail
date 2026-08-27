@@ -1,0 +1,7 @@
+{
+  "source_id": "artf-2024-anuario-ferroviario",
+  "raw_filename": "artf-2024-anuario-ferroviario.pdf",
+  "raw_sha256": "526fcb0cf407213228c6eb74f8be3b63abc830147c256b749c49c1f9e254a5fd",
+  "extractor": "pymupdf",
+  "extracted_utc": "2026-08-27T11:25:17+00:00"
+}

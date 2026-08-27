@@ -1,0 +1,7 @@
+{
+  "source_id": "artf-2023-anuario-ferroviario",
+  "raw_filename": "artf-2023-anuario-ferroviario.pdf",
+  "raw_sha256": "cdc6d2aefee528a407064e5e054d35a91709a6baafe53ffcdf0d0901d96bc8eb",
+  "extractor": "pymupdf",
+  "extracted_utc": "2026-08-27T11:25:18+00:00"
+}
