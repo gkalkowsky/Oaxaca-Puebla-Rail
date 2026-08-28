@@ -1,4 +1,20 @@
-# Step 5 revisited — environmental permitting is a second, independent constraint
+# Step 5 — environmental permitting
+
+> ## CORRECTION, 2026-08-28
+>
+> **An earlier version of this file overstated the permitting constraint.** It
+> reported that no subzone permits a linear rail corridor and implied the
+> alignment therefore runs through the reserve without a permitted pathway. A
+> GIS overlay against CONANP's own ANP boundary shapefile shows that
+> **the Cañada valley floor — where both MEX-135 and the railway run — is
+> largely EXCLUDED from the reserve.** All nine corridor waypoints test outside
+> the boundary, and south of ~17.53°N there is no reserve at any longitude.
+>
+> The subzone analysis below remains factually correct about the reserve's
+> internal rules. What changed is whether those rules **bind on this
+> alignment** — and on current evidence they may substantially not. The
+> constraint is downgraded from "potentially forecloses" to "narrow margin,
+> unresolved". See `## GIS overlay` below.
 
 **This revises the risk register.** R-01 was recorded as *fatal / unassessed*
 because `whc.unesco.org` returned 403. The CONANP management programme was then
@@ -99,16 +115,60 @@ of influence (p. 137). Any alignment consent process runs across that surface.
 4. This is a determination for SEMARNAT and CONANP. It is **not** a desk
    conclusion, and is not presented as one.
 
+## GIS overlay — what actually changed the conclusion
+
+Source: CONANP's own boundary shapefile, `232-ANP_ITRF08_19162026.shp`, from
+`sig.conanp.gob.mx/container/descargas/files/shape/`. (The site root returns
+503; the `/Shape` path serves.) Script: `analysis/scripts/anp_overlay.py`.
+Full output: `working/anp-overlay.txt`.
+
+Two things came out of it.
+
+**1. Independent confirmation that no zona núcleo exists.** CONANP's
+zonas-núcleo layer (`ZP_ANPS_22042024.shp`, 253 polygons nationally) contains
+**zero polygons for Tehuacán-Cuicatlán**. That corroborates the management
+programme's text (p.140) from a completely different source type.
+
+**2. The valley floor is outside the reserve.** Every corridor waypoint tests
+outside the ANP polygon. The reserve occupies the slopes on either side of the
+Cañada; the floor sits in a gap:
+
+| Waypoint | Distance from reserve edge to the valley-floor station |
+|---|---|
+| Tehuacán (corridor entry) | **0.6 km** |
+| Santa María Tecomavaca | **0.8 – 1.2 km** |
+| San Juan Bautista Cuicatlán | 3.3 km |
+| Teotitlán del Camino | 4.6 – 6.5 km |
+| Nacaltepec, Etla, Oaxaca City | no reserve at these latitudes |
+
+**A straight-line traverse between waypoints reports 32% "inside". That figure
+is an artefact and must not be used.** Chords between excluded valley points cut
+across the included slopes; a railway following the valley does not.
+
+### What this means, stated plainly
+
+- The alignment may run **substantially, perhaps wholly, outside** the ANP.
+- **South of ~17.53°N — roughly Nacaltepec to Oaxaca City — there is no reserve
+  at all.**
+- But the excluded corridor is **narrow, under 1 km at Tehuacán and
+  Tecomavaca**. Cuttings, borrow pits, spoil, structures and any realignment
+  could enter reserve land even where the centreline does not.
+- The reserve's **zone of influence** is larger than the ANP polygon and may
+  still trigger review.
+
+### What would retire it
+
+The **rail centreline** — never obtained; road stations are the proxy
+throughout. Then a SEMARNAT determination on whether rehabilitating a
+pre-existing federal ROW is *construction* or *maintenance* under LGEEPA, and
+the MIA modality that follows.
+
 ## Effect on the screen
 
-This does **not** change the freight revenue verdict, which stands on its own
-evidence. It adds a **second, independent constraint**: even if the economics
-were favourable, the permitting pathway for a linear rail corridor through this
-reserve is not evident from the management programme's permitted-activity
-structure, and resolving it is a legal process with a real prospect of
-foreclosure — not a formality to be assumed away.
+**The freight revenue verdict is unaffected** — it never depended on this.
 
-**What would retire it:** the subzone polygon shapefile overlaid on the
-alignment, plus a SEMARNAT determination on whether rehabilitation of a
-pre-existing federal rail right-of-way is construction or maintenance for
-LGEEPA purposes, and the MIA modality that follows.
+What changes is the standing of the environmental constraint. It was presented
+as a second, independent basis for the negative. **On this evidence it is not
+strong enough to carry that weight.** It is better described as a live but
+unresolved risk with thin margin, not a probable foreclosure. The screen has
+been amended accordingly.

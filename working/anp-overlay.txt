@@ -1,0 +1,62 @@
+ANP: Tehuacán-Cuicatlán | RB | 490,186.9 ha | 1 ring(s)
+
+WAYPOINT TEST (proxy: PUE-MEX-135 aforo stations + endpoints)
+  outside   18.4871  -97.4562  Tehuacán (corridor entry)
+  outside   18.1317  -97.0639  Teotitlán del Camino
+  outside   18.1188  -97.0737  Teotitlán del Camino (2)
+  outside   17.9555  -97.0255  Santa María Tecomavaca
+  outside   17.9495  -97.0222  Santa María Tecomavaca (2)
+  outside   17.7939  -96.9600  San Juan Bautista Cuicatlán
+  outside   17.5056  -96.9000  Nacaltepec
+  outside   17.1668  -96.7877  Nazareno Etla
+  outside   17.0600  -96.7250  Oaxaca City (corridor terminus)
+
+BOUNDARY GEOMETRY AT EACH WAYPOINT LATITUDE
+  Tehuacán (corridor entry)        reserve bands [(-97.573, -97.563), (-97.493, -97.462), (-97.446, -97.417), (-97.407, -97.406)]
+                                     gap east of reserve edge -97.4617 -> station -97.4562: 0.6 km
+  Teotitlán del Camino             reserve bands [(-97.641, -97.598), (-97.545, -97.126), (-97.049, -97.023)]
+                                     gap east of reserve edge -97.1260 -> station -97.0639: 6.5 km
+  Teotitlán del Camino (2)         reserve bands [(-97.63, -97.619), (-97.525, -97.117), (-97.071, -97.009)]
+                                     gap east of reserve edge -97.1174 -> station -97.0737: 4.6 km
+  Santa María Tecomavaca           reserve bands [(-97.356, -97.033), (-97.006, -97.001), (-96.998, -96.998), (-96.98, -96.913)]
+                                     gap east of reserve edge -97.0331 -> station -97.0255: 0.8 km
+  Santa María Tecomavaca (2)       reserve bands [(-97.355, -97.034), (-97.008, -96.919)]
+                                     gap east of reserve edge -97.0335 -> station -97.0222: 1.2 km
+  San Juan Bautista Cuicatlán      reserve bands [(-97.322, -96.991), (-96.938, -96.913), (-96.913, -96.872)]
+                                     gap east of reserve edge -96.9913 -> station -96.9600: 3.3 km
+  Nacaltepec                       no reserve at this latitude
+  Nazareno Etla                    no reserve at this latitude
+  Oaxaca City (corridor terminus)  no reserve at this latitude
+
+Densified traverse (1.0 km steps) along the waypoint polyline:
+  polyline length      :   182.9 km  (straight-line chords, so SHORTER than the 216.5 km route)
+  inside the reserve   :    58.5 km
+  share inside         :    32.0 %
+
+DO NOT READ THAT PERCENTAGE AS A RIGHT-OF-WAY OVERLAP. It is an artefact.
+
+The traverse chords straight between towns. The real alignment, like the
+highway, follows the VALLEY FLOOR -- and every valley-floor waypoint tests
+OUTSIDE the reserve. The reserve occupies the slopes on either side of the
+Cañada, leaving the floor in a gap several km wide. A straight chord between two
+excluded valley points cuts through the included slopes on the way; a railway
+does not.
+
+WHAT THIS OVERLAY ACTUALLY SHOWS
+  - The Cañada valley floor, where both MEX-135 and the railway run, appears to
+    be EXCLUDED from the reserve boundary.
+  - South of roughly 17.53 N there is no reserve at any longitude.
+  - So the alignment may run substantially, perhaps wholly, OUTSIDE the ANP.
+
+WHAT IT DOES NOT SHOW
+  - The rail centreline was never obtained; road stations are the proxy.
+  - The excluded corridor is only a few km wide. Cuttings, borrow pits,
+    structures, spoil and realignment could still enter reserve land even if
+    the centreline does not.
+  - The reserve's zone of influence is larger than the ANP polygon and may
+    still trigger review.
+  - Subzones are NOT resolved: CONANP does not publish subzonificación polygons,
+    and its zonas-nucleo layer has no polygon for this reserve at all --
+    independently confirming the management programme's statement that none
+    was ever established.
+

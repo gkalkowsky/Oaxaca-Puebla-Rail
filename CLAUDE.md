@@ -38,7 +38,7 @@ replaces it and is written from the actual state of the repo.
 | **Step 3** | Aforo extraction | **done — 1,102 stations validated (99.8%)** |
 | **Step 3b** | Commodity segregation | **evidenced, not enumerated.** SIAP unreachable; diversion constrained instead by ARTF haul distances (678 km mean vs 216.5 km corridor). Per-commodity tonnage still not split |
 | **Step 4** | Compare + verdict | **done — NEGATIVE (provisional)** |
-| **Step 5** | Risk register | **done, and materially revised** by CONANP: subzonal permitting, 239 ha constraint |
+| **Step 5** | Risk register | **done, revised twice.** CONANP gave the 239 ha subzonal finding; the GIS overlay then showed the valley floor is largely OUTSIDE the reserve, so R-01 was **downgraded from fatal to moderate** |
 | **Step 6** | Public-benefit case | **bounded, not measured.** Required external benefit computed by inversion (0.11–1.58 MXN/ton-km by capture rate) |
 
 ## Stop rules — from `Prompt.md`, these govern whether a verdict may be issued
@@ -108,6 +108,9 @@ closed by substituting press reporting.
 | **National mean rail haul** | **678** | km | `artf-2024-anuario-ferroviario` Tabla 2-2 |
 | Corridor as share of mean haul | 32 | % | derived — **corridor far too short for rail economics** |
 | **Aprovechamiento Especial subzone** (only one permitting infrastructure) | **239.2** | ha (0.049% of reserve) | `conanp-2013-pm-tehuacan-cuicatlan` |
+| Corridor waypoints inside the ANP polygon | **0 of 9** | — | CONANP `232-ANP_ITRF08` shapefile |
+| Gap, reserve edge → valley-floor station (tightest) | **0.6** | km, at Tehuacán | same |
+| Reserve southern limit | ~17.53 | °N — no reserve south of this | same |
 | **Breakeven as share of ALL corridor artic freight** | **32–91** | % | model, track-only, structures = 0 |
 | Breakeven in loaded truckloads/day each way | 80–227 | loads/day | model |
 | Observed corridor traffic | ~250 | artic veh/day each way | derived from aforo |
@@ -154,8 +157,9 @@ The verdict is issued. Remaining work sharpens it; it cannot reverse it.
 2. **Step 6 public-benefit case — the honest open question.** A negative freight
    revenue case is not a negative public-benefit case (~89% of measured benefits
    in comparable studies are reduced road operating cost). Untested.
-3. **GIS overlay** of CONANP subzone polygons on the alignment — the one thing
-   that would settle the permitting constraint. Shapefile not yet located.
+3. **Rail centreline** — the remaining gap on permitting. The ANP boundary
+   overlay is done (valley floor largely outside); road stations were the
+   proxy. Subzone polygons are not published by CONANP at all.
 4. **Capital unit cost for Mexico**, still unsourced. Try the CDN pattern for
    ASF audit reports and SICT tender awards.
 5. **Legal history** still unverified — DOF and Wayback both egress-blocked.

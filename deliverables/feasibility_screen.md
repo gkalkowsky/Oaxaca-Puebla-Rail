@@ -141,10 +141,17 @@ The IMT payload bridge **raised** supportable capital from 13.6–18.6 to
 more tonnage than the assumption they replaced. Reported because it happened,
 not because it helps.
 
-## A second, independent constraint: environmental permitting
+## Environmental permitting — a live risk, but NOT a second basis for the verdict
 
-This does not depend on the economics at all, and would bind even if they were
-favourable.
+> **Corrected 2026-08-28.** An earlier version of this screen presented
+> permitting as a second, independent constraint that would bind even if the
+> economics were favourable. **A GIS overlay against CONANP's own boundary
+> shapefile does not support that.** The Cañada valley floor, where both
+> MEX-135 and the railway run, is largely **excluded** from the reserve: all
+> nine corridor waypoints test **outside** the ANP polygon, and south of
+> ~17.53°N there is no reserve at any longitude. The constraint is downgraded
+> to a live but unresolved risk with thin margin. The freight revenue verdict
+> never depended on it and is unaffected.
 
 **The reserve has no core or buffer zones.** The brief asks whether the ROW
 crosses core zones, buffer, or lies outside the property. That framing does not
@@ -167,18 +174,44 @@ The operative instrument is **subzonal**.
 > Tehuacán landfill**. None is a transport corridor. A 216.5 km alignment at an
 > assumed 20 m right-of-way would cover ~433 ha: **1.8× that entire subzone.**
 
+Those rules are factually correct about the reserve's interior. **What the
+overlay changed is whether they bind on this alignment.**
+
+### GIS overlay result
+
+Source: CONANP's boundary shapefile `232-ANP_ITRF08_19162026.shp`
+(`sig.conanp.gob.mx/Shape` — the site root 503s, that path serves).
+
+| Waypoint | Gap from reserve edge to the valley-floor station |
+|---|---|
+| Tehuacán (corridor entry) | **0.6 km** |
+| Santa María Tecomavaca | **0.8 – 1.2 km** |
+| San Juan Bautista Cuicatlán | 3.3 km |
+| Teotitlán del Camino | 4.6 – 6.5 km |
+| Nacaltepec → Oaxaca City | **no reserve at these latitudes** |
+
+Also independently confirmed: CONANP's national zonas-núcleo layer contains
+**zero polygons** for this reserve — corroborating the management programme's
+statement that none was ever established, from a different source type.
+
+**So the alignment may run substantially, perhaps wholly, outside the ANP.** A
+straight-line traverse between waypoints reports "32% inside"; that is an
+artefact of chording across slopes a valley alignment would not enter, and is
+not used.
+
+**What keeps it a live risk rather than a closed question:** the excluded
+corridor is under 1 km wide at Tehuacán and Tecomavaca, so cuttings, borrow
+pits, spoil and structures could enter reserve land even where the centreline
+does not; the reserve's zone of influence is larger than the polygon; and **the
+rail centreline was never obtained** — road stations are the proxy throughout.
+
 CONANP separately identifies **federal 135 Tehuacán-Cuicatlán** among roads
 causing "inestabilidad de taludes, erosión, incendios" in the Cañada, and names
-right-of-way clearing as a fire-pressure source (pp. 81, 83) — independently
-corroborating the geotechnical risk.
+right-of-way clearing as a fire-pressure source (pp. 81, 83) — which still
+corroborates the geotechnical risk (R-02) regardless of the boundary question.
 
-**Caveats that cut the other way, stated because they are real:** the railway
-predates the reserve by a century (1892 vs 1998) and is mapped in the
-programme's own cartography as an existing feature; rehabilitating an existing
-ROW might be characterised as *maintenance* rather than *construction*; and **no
-GIS overlay was performed**, so which subzones the alignment actually crosses is
-not established. This is a SEMARNAT/CONANP determination, not a desk conclusion.
-Full treatment: `working/environmental-permitting.md`.
+Full treatment: `working/environmental-permitting.md`,
+`working/anp-overlay.txt`.
 
 ### What would overturn it
 
