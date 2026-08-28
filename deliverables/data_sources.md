@@ -5,7 +5,7 @@ The reproducibility record for this screen. Raw documents are **not** committed
 markdown under `sources/extracted/` **is** committed and is what deliverables
 cite.
 
-**Status: eleven sources retrieved (2026-08-27), nine primary.** Access to Mexican
+**Status: thirteen sources retrieved (2026-08-27/28), eleven primary.** Access to Mexican
 government hosts is partly blocked; the routing that worked, and what remains
 unobtainable, is recorded in §1 and in `working/source-access-log.md`.
 
@@ -29,6 +29,8 @@ committed; supersede it with a new row and mark the old one `superseded`.
 | `itf-2020-road-rail-cba` | Comparing Road and Rail Investment in Cost-Benefit Analysis (ITF Discussion Paper) | OECD / ITF | secondary | https://www.oecd.org/content/dam/oecd/en/publications/reports/2020/12/comparing-road-and-rail-investment-in-cost-benefit-analysis_8452f4cb/71792956-en.pdf | 2026-08-27 | `eb3a93a2c59c8b6ed62fcdc664e585b1743d39637538bdbbaff8886b60c45d7c` | `sources/extracted/itf-2020-road-rail-cba/` | active |
 | `imt-pt179-costos-operacion-vehicular` | Análisis de Costos de Operación Vehicular del Autotransporte de Carga (Publicación Técnica 179, 2001) | IMT | primary | https://imt.mx/archivos/Publicaciones/PublicacionTecnica/pt179.pdf | 2026-08-27 | `27e7a5e65adc855e73313e095b1a5f2d91b5d280cb8c4594547731b3730a04d2` | `sources/extracted/imt-pt179-costos-operacion-vehicular/` | active |
 | `conanp-2013-pm-tehuacan-cuicatlan` | Programa de Manejo Reserva de la Biosfera Tehuacán-Cuicatlán (2013) | CONANP | primary | https://simec.conanp.gob.mx/pdf_libro_pm/123_libro_pm.pdf | 2026-08-27 | `727e4d810d2661ef23131f5981e5953e70df191cf6bd2e7239e9eb47f731ae30` | `sources/extracted/conanp-2013-pm-tehuacan-cuicatlan/` | active |
+| `conanp-2026-anp-shapefile` | Áreas Naturales Protegidas Federales — boundary shapefile (ITRF08, 232 polygons) | CONANP | primary | https://sig.conanp.gob.mx/container/descargas/files/shape/232-ANP_ITRF08_19162026.zip | 2026-08-28 | `701685bdd44e17a2dbdd927f943743a511802b79d1664512ed684df1eee59e2c` | derived output: `working/anp-overlay.txt` | active |
+| `conanp-2024-zonas-nucleo-shapefile` | Zonas núcleo de ANP — shapefile (253 polygons, ZP_ANPS_22042024) | CONANP | primary | https://sig.conanp.gob.mx/container/descargas/files/shape/SHAPE_ANPS_ZN.zip | 2026-08-28 | `9b213826e6fe3c258febad9120594de3b79ae0377149e7e6bcb15e20a0a5b57c` | derived output: `working/anp-overlay.txt` | active |
 
 All three are born-digital (text layer present), extracted with `pymupdf`.
 Identity of each was verified by reading page 1, not by trusting the filename.
@@ -45,7 +47,8 @@ Identity of each was verified by reading page 1, not by trusting the filename.
 | The brief's "~89% of benefits from road operating cost" | Not located in any retrieved source | Step 6's benefit structure is **unverified**. Recorded rather than repeated as fact |
 | IADB publications | `publications.iadb.org` HTTP 403 challenge | Latin American rail benchmarks unavailable from that source |
 | UNESCO property 1534 boundary | `whc.unesco.org` HTTP 403 (both the listing and the document endpoint) | **Substantially mitigated.** The CONANP *programa de manejo* supplies the operative Mexican zoning instrument, which is what governs permitting. The UNESCO inscription boundary remains unobtained |
-| Subzone polygon geometry (shapefile) | Not located in PDF form | Which subzones the alignment crosses is **not established**; no GIS overlay performed |
+| **Subzone polygon geometry** | **CONANP does not publish subzonificación polygons** in its shapefile downloads. Its zonas-núcleo layer has zero polygons for this reserve (consistent: none was ever established). DOF, where the subzone coordinate annex would sit, is egress-blocked | Which *subzone* the alignment crosses is still not established. The **outer ANP boundary** overlay WAS done — see `working/anp-overlay.txt` |
+| **Rail centreline geometry** | Not located in any retrieved source | The overlay uses PUE-MEX-135 aforo stations as a proxy for the alignment. This is the main remaining gap on the permitting question |
 
 Column rules:
 
