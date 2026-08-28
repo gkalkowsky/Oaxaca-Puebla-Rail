@@ -1,10 +1,21 @@
-# Core analysis
-openpyxl>=3.1
-pandas>=2.0
+# Required — everything in analysis/scripts/ runs on these two.
+pymupdf>=1.24          # PDF text + word bounding boxes. The bounding boxes are
+                       # not optional: the DGST Datos Viales pages are rotated
+                       # 90 degrees and reading-order text interleaves columns.
+openpyxl>=3.1          # builds analysis/breakeven_model.xlsx
 
-# PDF extraction. marker-pdf is the preferred extractor; it is a large install
-# and pulls model weights (both gitignored). extract_source.py falls back to
-# pdftotext (poppler-utils) or pypdf when marker is unavailable, and records
-# which extractor produced the output.
-pypdf>=4.0
-# marker-pdf>=1.0        # uncomment when running full-fidelity extraction
+# Optional — verification only.
+# formulas>=1.2        # recalculates the workbook outside Excel; used to check
+#                      # that the model's formulas actually compute.
+
+# NOT dependencies, recorded so the next session does not repeat the diagnosis:
+#   pypdf     — installs but crashes in this image: the system `cryptography`
+#               has a broken Rust binding (ModuleNotFoundError: _cffi_backend
+#               -> pyo3_runtime.PanicException). extract_source.py keeps it as a
+#               last-resort fallback but it will not run here.
+#   poppler   — absent, and apt-get is unavailable, so no pdftotext/pdffonts.
+#   marker-pdf— the brief's preferred extractor. Not installed: it pulls torch
+#               and model weights. All sources retrieved so far are born-digital
+#               with a text layer, so the brief's own routing rule ("do not run
+#               full-page VLM on clean born-digital tables") says the text-layer
+#               path is correct. Add it only if a scanned source appears.
