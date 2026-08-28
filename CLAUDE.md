@@ -107,6 +107,9 @@ closed by substituting press reporting.
 | **National mean rail haul** | **678** | km | `artf-2024-anuario-ferroviario` Tabla 2-2 |
 | Corridor as share of mean haul | 32 | % | derived — **corridor far too short for rail economics** |
 | **Aprovechamiento Especial subzone** (only one permitting infrastructure) | **239.2** | ha (0.049% of reserve) | `conanp-2013-pm-tehuacan-cuicatlan` |
+| **Breakeven as share of ALL corridor artic freight** | **32–91** | % | model, track-only, structures = 0 |
+| Breakeven in loaded truckloads/day each way | 80–227 | loads/day | model |
+| Observed corridor traffic | ~250 | artic veh/day each way | derived from aforo |
 | Mexican precedent (Línea Z) | ~60 | MXN million / km | **[PRESS — UNVERIFIED]** |
 | UNESCAP light rehabilitation | ~9.25 | MXN million / km | brief, at 18.5 MXN/USD [ASSUMED] |
 

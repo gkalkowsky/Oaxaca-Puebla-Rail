@@ -125,10 +125,15 @@ def build_inputs(ws):
         "km E-150+000 to E-367+000. Independent verification outstanding", M1)
 
     sec(ws, 6, "CAPITAL — cost per route-km by track-condition scenario")
-    par(ws, 7, "Light rehabilitation", None, "MXN million / km", "",
-        "UNESCAP guidance cited in brief: < USD 500,000/route-km. Convert at B26 and cite", M2)
-    par(ws, 8, "Heavy rehabilitation", None, "MXN million / km", "", "", M2)
-    par(ws, 9, "Substantial reconstruction", None, "MXN million / km", "", "", M2)
+    par(ws, 7, "Light rehabilitation", 6.9, "MXN million / km", "wb-2020-serbia-railways-lcc T.11",
+        "WB partial renewal (rail + ballast) 343/m @20 MXN/EUR. TRACK ONLY. Consistent with "
+        "the UNESCAP < USD 500,000/route-km figure the brief cites", M2)
+    par(ws, 8, "Heavy rehabilitation", 9.3, "MXN million / km", "wb-2020-serbia-railways-lcc T.11",
+        "WB partial renewal (rail + sleeper exchange) 463/m @20 MXN/EUR. TRACK ONLY", M2)
+    par(ws, 9, "Substantial reconstruction", 14.3, "MXN million / km",
+        "wb-2020-serbia-railways-lcc T.11",
+        "WB general renewal + subsoil rehabilitation 716/m @20 MXN/EUR. TRACK ONLY. "
+        "Currency NOT stated in the source; EUR assumed as the likelier of the two", M2)
     ws.cell(row=10, column=1, value="  Mexican precedent (context, NOT a base case)")
     ws.cell(row=10, column=2, value=None).fill = ASSUM_FILL
     ws.cell(row=10, column=2).border = BOX
@@ -139,10 +144,17 @@ def build_inputs(ws):
         "primary unreachable (JS app), DOF egress-blocked. Must NOT carry a conclusion.")).font = NOTE
 
     sec(ws, 11, "CAPITAL — structures carried separately, per the brief")
-    par(ws, 12, "Bridges / drainage / slope stabilisation — low", None, "MXN million", "",
-        "Dominant uncertainty. Carried as its own line with its own range, NOT buried in a "
-        "percentage contingency. No public structure inventory is expected to exist", M1)
-    par(ws, 13, "Bridges / drainage / slope stabilisation — high", None, "MXN million", "", "", M1)
+    par(ws, 12, "Bridges / drainage / slope stabilisation — low", 0, "MXN million",
+        "[UNSOURCED — SET 0]",
+        "SET TO ZERO DELIBERATELY so the model computes a TRACK-ONLY LOWER BOUND. No public "
+        "structure inventory is expected to exist for this line, and the World Bank unit costs "
+        "above are track work only. Every result downstream is therefore an UNDERSTATEMENT of "
+        "cost and an OVERSTATEMENT of viability. Replace with real figures before any decision", M1, ASSUM_FILL)
+    par(ws, 13, "Bridges / drainage / slope stabilisation — high", 0, "MXN million",
+        "[UNSOURCED — SET 0]",
+        "Same. Material on this alignment: the Cañada sits where Sierra Madre Oriental and "
+        "Sierra Madre del Sur folding converge, and CONANP already records slope instability, "
+        "erosion and scour along the corridor's existing roads", M1, ASSUM_FILL)
 
     sec(ws, 14, "FINANCE")
     par(ws, 15, "Asset life", 30, "years", "Prompt.md", "", N0)
@@ -151,12 +163,14 @@ def build_inputs(ws):
     par(ws, 18, "Cost of capital — case 3", 0.08, "% / yr", "Prompt.md", "", PCT)
 
     sec(ws, 19, "OPERATING")
-    par(ws, 20, "Fixed O&M (tonnage-independent)", None, "MXN million / yr", "",
-        "Signalling, admin, inspection, right-of-way security", M1)
-    par(ws, 21, "Variable O&M per gross ton-km", None, "MXN / gross ton-km", "",
-        "Track wear. This is what makes O&M depend on the tonnage being solved for", '0.0000')
-    par(ws, 22, "Tare factor (gross / net tonnage)", None, "ratio", "",
-        "Wagon tare + locomotive. Gross ton-km = net tons x (1 + tare) x km", M2)
+    par(ws, 20, "Fixed O&M (tonnage-independent)", 0, "MXN million / yr",
+        "set 0 — see note", "MUST be 0 on the ARTF EBIT margin basis: ARTF's cost base already "
+        "includes network operation and maintenance. Non-zero here double-counts", M1, DER_FILL)
+    par(ws, 21, "Variable O&M per gross ton-km", 0, "MXN / gross ton-km",
+        "set 0 — see note", "Same reason. Track wear is already inside the 0.402 EBIT figure",
+        '0.0000', DER_FILL)
+    par(ws, 22, "Tare factor (gross / net tonnage)", 0, "ratio", "set 0 — see note",
+        "Unused on the EBIT basis, since variable O&M is 0", M2, DER_FILL)
 
     sec(ws, 23, "REVENUE")
     par(ws, 24, "Contribution margin per net ton-km", 0.402, "MXN / net ton-km",
@@ -169,17 +183,21 @@ def build_inputs(ws):
         "see note", "Guard against double-counting; overrides B21 conceptually", '0.0000', DER_FILL)
 
     sec(ws, 25, "CONVENTIONS AND CONVERSION")
-    par(ws, 26, "MXN / USD rate", None, "MXN per USD", "",
+    par(ws, 26, "MXN / USD rate", 18.5, "MXN per USD", "[ASSUMED]",
         "State the rate AND its date. Required before any USD benchmark is used", M2)
-    par(ws, 27, "FX rate date", None, "date", "", "", None)
-    par(ws, 28, "Deflation base year (INEGI INPC)", None, "yyyy", "",
+    par(ws, 27, "FX rate date", "NOT SET — must be stated before use", "date",
+        "[REQUIRED]", "An FX rate without its date is not a source", None, ASSUM_FILL)
+    par(ws, 28, "Deflation base year (INEGI INPC)", 2024, "yyyy", "artf-2024-anuario",
         "All money figures real in this year. Never mix nominal across years", N0)
 
     sec(ws, 29, "ROAD COMPARISON")
-    par(ws, 30, "Payload per loaded articulated truck", 27.5, "tonnes", "[ASSUMPTION] 25–30 t",
-        "Bridge from vehicle counts to tonnage. This is an ASSUMPTION — show sensitivity", M1, ASSUM_FILL)
-    par(ws, 31, "Empty-running share", 0.40, "fraction", "Prompt.md: ~30–50%",
-        "Raw truck counts are NOT loaded tonnage", PCT, ASSUM_FILL)
+    par(ws, 30, "Payload per articulated vehicle", 19.1, "tonnes", "imt-pt179 Tabla 4.7",
+        "Weighted mean of IMT carga promedio (T3S2 13.2, T3S3 20.9, T3S2R4 30.1) at the observed "
+        "terminus class mix. PRIMARY, but 2001 data — STALE", M1)
+    par(ws, 31, "Empty-running share", 0, "fraction", "set 0 — see note",
+        "MUST be 0 with the IMT payload above: carga promedio is averaged across observed "
+        "vehicles and ALREADY nets out empty and partial running. A further discount "
+        "double-counts", PCT, DER_FILL)
     par(ws, 32, "Observed articulated veh/day at corridor terminus", 500, "veh/day, both dirs",
         "sct-2025-datosviales-oaxaca", "SR-2 bound: endpoint flow N of Oaxaca City. See working/sr2-evaluation.md", N0)
     widths(ws, {1: 44, 2: 16, 3: 22, 4: 26, 5: 78})
@@ -319,28 +337,40 @@ def build_compare(ws):
     ws["A2"] = "Filled once both sides exist. Ranges, not point estimates."; ws["A2"].font = NOTE
     head(ws, 4, ["Quantity", "Value", "Unit", "Source"])
     rows = [
+        ("Corridor tonnage, ALL articulated freight", "=Supportable!B8", "t / yr",
+         "aforo 2024 x IMT loads"),
+        ("Breakeven as % of ALL corridor freight — best case",
+         '=IF(OR(B5="",B5=0,COUNT(Breakeven!F8:F25)=0),"",MIN(Breakeven!F8:F25)/B5)', "%", "derived"),
+        ("Breakeven as % of ALL corridor freight — worst case",
+         '=IF(OR(B5="",B5=0,COUNT(Breakeven!F8:F25)=0),"",MAX(Breakeven!F8:F25)/B5)', "%", "derived"),
         ("Divertible tonnage (bottom-up, commodity)", "=Commodity!E15", "t / yr", "Commodity sheet"),
         ("Breakeven tonnage — most favourable case", '=IF(COUNT(Breakeven!F8:F25)=0,"",MIN(Breakeven!F8:F25))', "t / yr", "Breakeven sheet"),
         ("Breakeven tonnage — least favourable case", '=IF(COUNT(Breakeven!F8:F25)=0,"",MAX(Breakeven!F8:F25))', "t / yr", "Breakeven sheet"),
-        ("Ratio: divertible / breakeven (favourable)", '=IF(OR(B5="",B6="",B6=0),"",B5/B6)', "x", ""),
-        ("Ratio: divertible / breakeven (unfavourable)", '=IF(OR(B5="",B7="",B7=0),"",B5/B7)', "x", ""),
+        ("Ratio: divertible / breakeven (favourable)", '=IF(OR(B8="",B9="",B9=0),"",B8/B9)', "x", ""),
+        ("Ratio: divertible / breakeven (unfavourable)", '=IF(OR(B8="",B10="",B10=0),"",B8/B10)', "x", ""),
     ]
     for i, (n, f, u, s) in enumerate(rows, start=5):
         ws.cell(row=i, column=1, value=n)
         v = ws.cell(row=i, column=2, value=f); v.fill, v.border = DER_FILL, BOX
         v.number_format = M2 if "Ratio" in n else N0
         ws.cell(row=i, column=3, value=u); ws.cell(row=i, column=4, value=s)
-    ws.cell(row=11, column=1, value="VERDICT GATE").font = SEC
-    ws.cell(row=12, column=1, value="Stop Rule 3 test")
-    g = ws.cell(row=12, column=2, value=(
-        '=IF(OR(B8="",B9=""),"pending inputs",'
-        'IF(AND(B8>1,B9<1),"INDETERMINATE — scenarios straddle breakeven; field reconnaissance required",'
-        'IF(B8<1,"FAILS under every capital scenario",'
-        'IF(B9>1,"CLEARS under every capital scenario","review"))))'))
+    ws.cell(row=14, column=1, value="VERDICT GATE").font = SEC
+    ws.cell(row=15, column=1, value="Stop Rule 3 test")
+    g = ws.cell(row=15, column=2, value=(
+        '=IF(OR(B11="",B12=""),"pending commodity segregation — see B6:B7 for the '
+        'all-freight comparison",'
+        'IF(AND(B11>1,B12<1),"INDETERMINATE — scenarios straddle breakeven; field reconnaissance required",'
+        'IF(B11<1,"FAILS under every capital scenario",'
+        'IF(B12>1,"CLEARS under every capital scenario","review"))))'))
     g.font = SEC; g.fill = DER_FILL; g.border = BOX
-    ws.cell(row=14, column=1, value=(
+    ws.cell(row=17, column=1, value=(
         "A straddle is a real result, not a failure to decide. Per the brief, do not select a "
         "base case and present a conclusion — report the scenario at which the answer flips.")).font = NOTE
+    ws.cell(row=18, column=1, value=(
+        "Rows 6-7 are the comparison that does NOT wait on commodity segregation: breakeven "
+        "tonnage as a share of ALL articulated freight in the corridor. Since divertible "
+        "tonnage cannot exceed total tonnage, those percentages are a LOWER BOUND on the "
+        "capture rate required — and they assume structures cost zero.")).font = NOTE
     widths(ws, {1: 46, 2: 58, 3: 14, 4: 22})
 
 

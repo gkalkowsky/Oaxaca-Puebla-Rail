@@ -50,6 +50,33 @@ Both sides now rest on primary sources:
 `[wb-2020-serbia-railways-lcc Tabla 11]`. Currency is **not stated in the
 source**; both plausible currencies are carried and the direction is unchanged.
 
+### Step 2 output, stated as the brief asks — tonnes/year and truckloads/day
+
+The workbook is now populated from sourced values and computes end-to-end.
+Capital scenarios are the World Bank track-renewal costs; **structures are set
+to zero deliberately**, so every figure below is a *lower bound on cost* and an
+*upper bound on viability*.
+
+| Capital scenario (track only) | Capital MXN m | Breakeven t/yr | Loaded truckloads/day **each way** | % of ALL corridor articulated freight |
+|---|---:|---:|---:|---:|
+| Light @5% | 1,494 | 1,116,554 | **80** | **32%** |
+| Light @8% | 1,494 | 1,524,650 | 109 | 44% |
+| Heavy @5% | 2,013 | 1,504,921 | 108 | 43% |
+| Heavy @8% | 2,013 | 2,054,963 | 147 | 59% |
+| Substantial @5% | 3,096 | 2,314,019 | 166 | 66% |
+| Substantial @8% | 3,096 | 3,159,782 | **227** | **91%** |
+
+Observed corridor traffic is ~250 articulated vehicles/day each way, carrying
+3.49 Mt/year in total.
+
+> **Even with bridges, drainage, slope stabilisation, signalling and
+> right-of-way all costed at zero, the line must capture between 32% and 91% of
+> every articulated tonne moving in the corridor simply to break even.**
+
+Since divertible tonnage cannot exceed total tonnage, those percentages are a
+**lower bound** on the required capture rate. The commodity segregation, when
+done, can only push them up.
+
 ### The decisive point about those World Bank figures
 
 They are **track only** — rail, sleepers, ballast, subsoil. They exclude
