@@ -122,11 +122,11 @@ transparency request). A source that cannot be recovered stays in the manifest
 with `status: unavailable` — the gap in the evidence chain must be visible,
 not silently dropped.
 
-## 4. Retrieval targets — Phase 1
+## 4. Retrieval targets — status
 
-Candidate sources to locate, not yet retrieved or verified. Institution names
-are search starting points; actual document titles and availability are
-unconfirmed until a manifest row exists.
+The original Phase 1 target list, annotated with what was obtained. Items
+without a manifest row in §1 were not retrieved; the blocked table above says
+why for each.
 
 **Corridor and terrain**
 - INEGI — continuo de elevaciones mexicano (DEM), topographic and locality data

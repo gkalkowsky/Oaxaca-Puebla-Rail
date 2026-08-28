@@ -27,18 +27,19 @@ replaces it and is written from the actual state of the repo.
 
 ## Current phase
 
-**Phase 4 — VERDICT ISSUED: negative, provisional. Steps 3b and 6 outstanding.**
+**Phase 4 — VERDICT ISSUED: negative, provisional. All six method steps addressed.**
 
 | Phase | What it delivers | Status |
 |---|---|---|
 | 0 | Repo structure, extraction pipeline, hygiene guard | done (content misaimed, see above) |
-| 1 | Source access + retrieval | done — SR-7 evaluated, 3 primary sources in |
-| 2 | Step 2 breakeven model (freight tonnage back-solve) | **done — ARTF margin obtained, model live** |
-| 3 | Step 3 aforo extraction | **done — 1,102 stations validated (99.8%)** |
-| 3b | Step 3 commodity segregation | not started — needs SIAP / INEGI |
-| 2b | Step 1 capital band | unsourced — **bypassed** by inverting to supportable capital |
-| 4 | Step 4 compare + verdict | **done — NEGATIVE (provisional)** |
-| 6 | Step 6 public-benefit case | **not tested** — the honest next question |
+| 1 | Source access + retrieval | done — SR-7 evaluated, **11 sources, 9 primary** |
+| **Step 1** | Capital cost band | **partial.** No Mexican unit cost. World Bank track-renewal benchmark substituted and labelled as an international transfer; structures still unsourced and set to 0 |
+| **Step 2** | Breakeven tonnage back-solve | **done.** ARTF margin 0.402 obtained; workbook populated and verified end-to-end |
+| **Step 3** | Aforo extraction | **done — 1,102 stations validated (99.8%)** |
+| **Step 3b** | Commodity segregation | **evidenced, not enumerated.** SIAP unreachable; diversion constrained instead by ARTF haul distances (678 km mean vs 216.5 km corridor). Per-commodity tonnage still not split |
+| **Step 4** | Compare + verdict | **done — NEGATIVE (provisional)** |
+| **Step 5** | Risk register | **done, and materially revised** by CONANP: subzonal permitting, 239 ha constraint |
+| **Step 6** | Public-benefit case | **bounded, not measured.** Required external benefit computed by inversion (0.11–1.58 MXN/ton-km by capture rate) |
 
 ## Stop rules — from `Prompt.md`, these govern whether a verdict may be issued
 
