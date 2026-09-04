@@ -69,8 +69,18 @@ Column rules:
 | `sct-2025-datosviales-oaxaca` | `pymupdf` word bounding boxes | born-digital | **high** | 502 records, 1 rejected. Three arithmetic identities enforced per record |
 | `sct-2025-datosviales-puebla` | `pymupdf` word bounding boxes | born-digital | **high** | 600 records, 1 rejected |
 | `imt-2023-manual-estadistico` | `pymupdf` reading order | born-digital | **medium** | Narrative and table text read cleanly; no per-record validation applied, figures used only qualitatively so far |
+| `artf-2024-anuario-ferroviario` | `pymupdf` reading order | born-digital | **high** | Tabla 7-8 margin cross-checked against Tablas 7-3/7.7: revenue − cost = 3,688,170 vs ARTF's published utilidad 3,688,169 |
+| `artf-2023-anuario-ferroviario` | `pymupdf` reading order | born-digital | **medium** | Retrieved as a corroborating year; no figure in the screen depends on it alone |
+| `fit-2021-programa-inversion` | `pymupdf` reading order | born-digital | **medium** | Used only for Línea Z scope (202.97 km, 146.3 km rehabilitation). Contract table carries supervision contracts only |
+| `ciep-2024-infraestructura-ferroviaria` | `pymupdf` reading order | born-digital | **medium** | Secondary. National budget context only; no unit cost derived from it |
+| `wb-2020-serbia-railways-lcc` | `pymupdf` reading order | born-digital | **medium-high** | Tabla 11 read cleanly. Downgraded from high because the **currency is not stated in the source**; both plausible currencies are carried |
+| `itf-2020-road-rail-cba` | `pymupdf` reading order | born-digital | **high** | Used for a methodological point only, not for any figure |
+| `imt-pt179-costos-operacion-vehicular` | `pymupdf` reading order | born-digital | **high** for the numbers, **low** for currency | Tabla 4.7 load factors read cleanly and reconcile (PBV = tara + carga for every row). **2001 data — STALE**, flagged wherever used |
+| `conanp-2013-pm-tehuacan-cuicatlan` | `pymupdf` reading order | born-digital | **high** | Subzone areas sum to 487,976.5 ha against a declared 490,186.9 ha — a 0.45% difference, consistent with rounding across six subzones |
+| `conanp-2026-anp-shapefile` | `pyshp` geometry read | vector, not text | **high** | 232 polygons; the Tehuacán-Cuicatlán record matches the management programme exactly (RB, 490,186.8755 ha, decreed 1998-09-18) |
+| `conanp-2024-zonas-nucleo-shapefile` | `pyshp` geometry read | vector, not text | **high** | 253 polygons nationally; **zero** for this reserve, corroborating the PM text from a different source type |
 
-No OCR was used. All three documents carry a text layer, so per the brief's own
+No OCR was used. Every PDF retrieved carries a text layer, so per the brief's own
 routing rule the text-layer path is correct and full-page VLM was not run.
 
 **Validation identities applied to every aforo record** (failures excluded, not
